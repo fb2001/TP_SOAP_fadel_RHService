@@ -14,7 +14,6 @@ import java.time.format.DateTimeFormatter;
 @Component
 public class ReservationHotelUI implements CommandLineRunner {
 
-    @Autowired
     private HotelService hotelService;
 
     public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");

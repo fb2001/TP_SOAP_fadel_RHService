@@ -16,21 +16,11 @@ import java.net.URL;
 @Configuration
 public class ReservationHotelconfig {
 
-    private static final String SERVICE_URL = "http://localhost:8080/reservationhotelservice/wsdl/reservationhotelservice.wsdl";
+    private static final String SERVICE_URL = "http://localhost:8080/reservationhotelservice?wsdl";
     private static final Logger logger = LoggerFactory.getLogger(ReservationHotelconfig.class);
 
     @Bean
-    public HotelService hotelServiceProxy() throws MalformedURLException {
-        try {
-            URL url = new URL(SERVICE_URL);
-            logger.info("Connecting to hotel service at {}", SERVICE_URL);
-            return new HotelServiceImplService(url).getHotelServiceImplPort();
-        } catch (MalformedURLException e) {
-            logger.error("Malformed URL: {}", e.getMessage());
-            throw e;
-        } catch (Exception e) {
-            logger.error("Failed to connect to hotel service: {}", e.getMessage());
-            throw e;
-        }
+    HotelService hotelServiceProxy() throws MalformedURLException {
+        return new HotelServiceImplService((new URL(SERVICE_URL))).getHotelServiceImplPort();
     }
 }

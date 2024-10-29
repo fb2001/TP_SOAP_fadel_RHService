@@ -17,7 +17,7 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.2
  * 
  */
-@WebServiceClient(name = "HotelServiceImplService", targetNamespace = "http://services.demo.tp2.hai702/", wsdlLocation = "http://localhost:8080/reservationhotelservice/wsdl/reservationhotelservice.wsdl")
+@WebServiceClient(name = "HotelServiceImplService", targetNamespace = "http://services.demo.tp2.hai702/", wsdlLocation = "http://localhost:8080/reservationhotelservice?wsdl")
 public class HotelServiceImplService
     extends Service
 {
@@ -30,7 +30,7 @@ public class HotelServiceImplService
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("http://localhost:8080/reservationhotelservice/wsdl/reservationhotelservice.wsdl");
+            url = new URL("http://localhost:8080/reservationhotelservice?wsdl");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }
@@ -67,7 +67,7 @@ public class HotelServiceImplService
      * @return
      *     returns HotelService
      */
-    @WebEndpoint(name = "/HotelServiceImplPort")
+    @WebEndpoint(name = "HotelServiceImplPort")
     public HotelService getHotelServiceImplPort() {
         return super.getPort(new QName("http://services.demo.tp2.hai702/", "HotelServiceImplPort"), HotelService.class);
     }
@@ -79,7 +79,7 @@ public class HotelServiceImplService
      * @return
      *     returns HotelService
      */
-    @WebEndpoint(name = "/HotelServiceImplPort")
+    @WebEndpoint(name = "HotelServiceImplPort")
     public HotelService getHotelServiceImplPort(WebServiceFeature... features) {
         return super.getPort(new QName("http://services.demo.tp2.hai702/", "HotelServiceImplPort"), HotelService.class, features);
     }
