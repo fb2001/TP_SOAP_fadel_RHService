@@ -70,16 +70,18 @@ public class HotelServiceImpl implements HotelService {
 
     // Méthode pour obtenir les offres disponibles selon les critères
 
-    @WebMethod
-    @WebResult(name = "offres")
-    @Override
-    public ArrayList<Offre> getOffresDisponible(
+
+ /*   public ArrayList<Offre> getOffresDisponible(
             @WebParam(name = "identifiant") String identifiantclientStr,
             @WebParam(name = "motDePasse") String motdepasseclient,
             @WebParam(name = "dateDebut") String dateDebut,
             @WebParam(name = "dateFin") String dateFin,
             @WebParam(name = "nombrePersonnes") int nombrePersonnes
-    )  throws ExceptionClient {
+   */
+ @WebMethod
+ //@WebResult(name = "offres")
+ @Override
+    public ArrayList<Offre>getOffresDisponible(String identifiantclientStr, String motdepasseclient , String dateDebut , String dateFin , int nombrePersonnes )  throws ExceptionClient {
         try {
             logger.info("Début de getOffresDisponible avec les paramètres suivants:");
             logger.info("identifiantclientStr: {}", identifiantclientStr);
@@ -112,8 +114,10 @@ public class HotelServiceImpl implements HotelService {
             ArrayList<Offre> offres = findAvailableOffers(dateDebutParsed, dateFinParsed, nombrePersonnes, sdf);
             logger.info("Nombre d'offres trouvées: {}", offres.size());
 
-            return offres;
+            if(offres.isEmpty())throw new ExceptionClient("Pas d'offfre dispo");
+           return offres;
 
+            //return new ArrayList<Offre>();
         } catch (ParseException e) {
             logger.error("Erreur lors du parsing des dates", e);
             throw new ExceptionClient("Erreur de format de date. Format attendu : yyyy-MM-dd. Exemple : 2024-10-25");

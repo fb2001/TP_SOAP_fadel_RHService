@@ -23,14 +23,15 @@ public class HotelServicePublisher implements CommandLineRunner {
     private static final String SERVICE_URI = "http://localhost:8080/reservationhotelservice";
 
     @Autowired
-    private HotelService hotelService;
+    HotelService hotelService ;
 
     @Override
     public void run(String... args) {
         try {
             // Publication du service Web
-            Endpoint endpoint = Endpoint.create(hotelService);
-            endpoint.publish(SERVICE_URI);
+            //Endpoint.publish("http://localhost:8080/consultationDisponibilites", new ConsultationDisponibilitesServiceImpl(hotelRepository));
+          //  Endpoint endpoint = Endpoint.create(hotelService);
+            Endpoint.publish(SERVICE_URI , hotelService);
             logger.info("Web Service successfully published at: {}", SERVICE_URI);
         } catch (Exception e) {
             logger.error("Error publishing web service: ", e);

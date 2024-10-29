@@ -16,12 +16,12 @@ import javax.xml.datatype.DatatypeConfigurationException;
 public class HotelServiceConfig {
 
     @Bean
-    public HotelService hotelService() throws DatatypeConfigurationException {
+    public HotelService hotelService()  {
         return new HotelServiceImpl();
     }
 
 
-    @Bean
+  /*  @Bean
     public ObjectMapper objectMapper() {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
@@ -34,4 +34,7 @@ public class HotelServiceConfig {
         srb.setLoadOnStartup(1);
         return srb;
     }
+
+
+   */
 }
