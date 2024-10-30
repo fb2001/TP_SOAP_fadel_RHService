@@ -13,6 +13,7 @@ import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -38,4 +39,11 @@ public interface HotelService {
 
     @WebMethod
     int hehe();
-}
+
+    @WebMethod
+     ArrayList<Offre> findAvailableOffers(Date dateDebutParsed, Date dateFinParsed, int nombrePersonnes, SimpleDateFormat sdf) throws ParseException ;
+
+  /* @WebMethod
+    Offre getOffrebyIdf(int id) throws Exception;
+*/
+    }
