@@ -31,10 +31,13 @@ public class ObjectFactory {
     private final static QName _DeleteOffreResponse_QNAME = new QName("http://services.demo.tp2.hai702/", "deleteOffreResponse");
     private final static QName _UpdateOffreResponse_QNAME = new QName("http://services.demo.tp2.hai702/", "updateOffreResponse");
     private final static QName _AjoutOffreResponse_QNAME = new QName("http://services.demo.tp2.hai702/", "ajoutOffreResponse");
+    private final static QName _ParseException_QNAME = new QName("http://services.demo.tp2.hai702/", "ParseException");
+    private final static QName _FindAvailableOffersResponse_QNAME = new QName("http://services.demo.tp2.hai702/", "findAvailableOffersResponse");
     private final static QName _Hotel_QNAME = new QName("http://services.demo.tp2.hai702/", "hotel");
     private final static QName _GetOffresDisponibleResponse_QNAME = new QName("http://services.demo.tp2.hai702/", "getOffresDisponibleResponse");
     private final static QName _AjoutOffre_QNAME = new QName("http://services.demo.tp2.hai702/", "ajoutOffre");
     private final static QName _UpdateOffre_QNAME = new QName("http://services.demo.tp2.hai702/", "updateOffre");
+    private final static QName _FindAvailableOffers_QNAME = new QName("http://services.demo.tp2.hai702/", "findAvailableOffers");
     private final static QName _GetOffresDisponible_QNAME = new QName("http://services.demo.tp2.hai702/", "getOffresDisponible");
     private final static QName _ExceptionClient_QNAME = new QName("http://services.demo.tp2.hai702/", "ExceptionClient");
     private final static QName _HeheResponse_QNAME = new QName("http://services.demo.tp2.hai702/", "heheResponse");
@@ -103,6 +106,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link FindAvailableOffers }
+     * 
+     */
+    public FindAvailableOffers createFindAvailableOffers() {
+        return new FindAvailableOffers();
+    }
+
+    /**
      * Create an instance of {@link GetOffresDisponible }
      * 
      */
@@ -135,6 +146,22 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link ParseException }
+     * 
+     */
+    public ParseException createParseException() {
+        return new ParseException();
+    }
+
+    /**
+     * Create an instance of {@link FindAvailableOffersResponse }
+     * 
+     */
+    public FindAvailableOffersResponse createFindAvailableOffersResponse() {
+        return new FindAvailableOffersResponse();
+    }
+
+    /**
      * Create an instance of {@link AjoutOffre }
      * 
      */
@@ -148,6 +175,38 @@ public class ObjectFactory {
      */
     public GetOffresDisponibleResponse createGetOffresDisponibleResponse() {
         return new GetOffresDisponibleResponse();
+    }
+
+    /**
+     * Create an instance of {@link Agence }
+     * 
+     */
+    public Agence createAgence() {
+        return new Agence();
+    }
+
+    /**
+     * Create an instance of {@link DateFormatSymbols }
+     * 
+     */
+    public DateFormatSymbols createDateFormatSymbols() {
+        return new DateFormatSymbols();
+    }
+
+    /**
+     * Create an instance of {@link SimpleDateFormat }
+     * 
+     */
+    public SimpleDateFormat createSimpleDateFormat() {
+        return new SimpleDateFormat();
+    }
+
+    /**
+     * Create an instance of {@link Currency }
+     * 
+     */
+    public Currency createCurrency() {
+        return new Currency();
     }
 
     /**
@@ -167,11 +226,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Agence }
+     * Create an instance of {@link StringArray }
      * 
      */
-    public Agence createAgence() {
-        return new Agence();
+    public StringArray createStringArray() {
+        return new StringArray();
     }
 
     /**
@@ -238,6 +297,24 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ParseException }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://services.demo.tp2.hai702/", name = "ParseException")
+    public JAXBElement<ParseException> createParseException(ParseException value) {
+        return new JAXBElement<ParseException>(_ParseException_QNAME, ParseException.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link FindAvailableOffersResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://services.demo.tp2.hai702/", name = "findAvailableOffersResponse")
+    public JAXBElement<FindAvailableOffersResponse> createFindAvailableOffersResponse(FindAvailableOffersResponse value) {
+        return new JAXBElement<FindAvailableOffersResponse>(_FindAvailableOffersResponse_QNAME, FindAvailableOffersResponse.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link Hotel }{@code >}}
      * 
      */
@@ -271,6 +348,15 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://services.demo.tp2.hai702/", name = "updateOffre")
     public JAXBElement<UpdateOffre> createUpdateOffre(UpdateOffre value) {
         return new JAXBElement<UpdateOffre>(_UpdateOffre_QNAME, UpdateOffre.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link FindAvailableOffers }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://services.demo.tp2.hai702/", name = "findAvailableOffers")
+    public JAXBElement<FindAvailableOffers> createFindAvailableOffers(FindAvailableOffers value) {
+        return new JAXBElement<FindAvailableOffers>(_FindAvailableOffers_QNAME, FindAvailableOffers.class, null, value);
     }
 
     /**

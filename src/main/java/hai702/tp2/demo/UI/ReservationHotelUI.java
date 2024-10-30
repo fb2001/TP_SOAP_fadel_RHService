@@ -3,7 +3,6 @@ package hai702.tp2.demo.UI;
 import hai702.tp2.demo.client.ExceptionClient;
 import hai702.tp2.demo.client.HotelService;
 import hai702.tp2.demo.client.Offre;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 

@@ -4,19 +4,15 @@ import hai702.tp2.demo.client.ExceptionClient;
 import hai702.tp2.demo.client.HotelService;
 import hai702.tp2.demo.client.HotelServiceImplService;
 import hai702.tp2.demo.client.Offre;
-import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
 
 
-import javax.xml.ws.WebServiceException;
-import javax.xml.ws.soap.SOAPFaultException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 ///Service/wsdl/Service.wsdl
 /// reservationhotelreservationhotelservice
@@ -132,10 +128,6 @@ import java.util.List;
 
 }
 */
-import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Scanner;
 
 /*public class RHServiceClientCLI extends AbstractMain {
     public static IntegerInputProcessor inputProcessor;
@@ -219,33 +211,6 @@ import java.util.Scanner;
     }
 }
 */
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Scanner;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Scanner;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Scanner;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Scanner;
 
 public class RHServiceClientCLI extends AbstractMain {
     private static final String SERVICE_WSDL_URL = "http://localhost:8080/reservationhotelservice?wsdl";
@@ -292,7 +257,7 @@ public class RHServiceClientCLI extends AbstractMain {
         return new HotelServiceImplService(new URL(SERVICE_WSDL_URL)).getHotelServiceImplPort();
     }
 
-    private void processUserInput(String userInput, HotelService proxy) throws ExceptionClient, IOException {
+    private void processUserInput(String userInput, HotelService proxy) throws ExceptionClient {
         try (Scanner scanner = new Scanner(System.in)) {
             switch (userInput) {
                 case "1":
@@ -302,10 +267,11 @@ public class RHServiceClientCLI extends AbstractMain {
                     String dateFin = getInput(scanner, "Entrez la date de fin (dd/MM/yyyy) : ");
                     int nombrePersonnes = getIntInput(scanner, "Entrez le nombre de personnes : ");
 
-                    proxy.getOffresDisponible(identifiant, motDePasse, dateDebut, dateFin, nombrePersonnes);
+                    List<Offre> offre = proxy.getOffresDisponible(identifiant, motDePasse, dateDebut, dateFin, nombrePersonnes);
+                    System.out.println(offre.size());
                     break;
                 case "2":
-                    proxy.hehe();
+                    System.out.println("hehe return : "+proxy.hehe());
                     break;
                 case QUIT:
                     System.out.println("Bye");

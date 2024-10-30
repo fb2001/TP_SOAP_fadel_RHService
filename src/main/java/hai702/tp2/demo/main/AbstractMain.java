@@ -1,7 +1,5 @@
 package hai702.tp2.demo.main;
 
-import hai702.tp2.demo.client.HotelService;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 
