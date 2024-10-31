@@ -34,7 +34,7 @@ public class DateUtils {
         }
     }
     public static int compareDates(String date1, String date2) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd"); // Format avec des slashes
         try {
             Date d1 = sdf.parse(date1);
             Date d2 = sdf.parse(date2);
@@ -46,6 +46,8 @@ public class DateUtils {
             return 0; // Retourne 0 par défaut en cas d'erreur de parsing
         }
     }
+
+
     public static boolean isValidDateString(String dateString) {
         try {
             stringToDate(dateString);

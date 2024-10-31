@@ -12,6 +12,8 @@ import hai702.tp2.demo.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.jws.WebService;
@@ -84,50 +86,96 @@ public class HotelServiceRepositoryImpl implements HotelServiceRepository {
     }
 
     @Override
-    public ArrayList<Offre> getOffresDisponible(String identifiantclientStr, String motdepasseclient,
-                                                String dateDebut, String dateFin, int nombrePersonnes) throws ExceptionClient {
-        try {
-            // Vérification des agences
-            boolean agenceExiste = false;
-            for (Agence agence : this.hotelrepository.getAgences()) {
-                if (agence.getId().equals(identifiantclientStr) &&
-                        agence.getMotdepasse().equals(motdepasseclient)) {
-                    agenceExiste = true;
-                    break;
-                }
-            }
+//    public ArrayList<Offre> getOffresDisponible(String identifiantclientStr, String motdepasseclient,
+//                                                String dateDebut, String dateFin, int nombrePersonnes) throws ExceptionClient {
+//        try {
+//            // Vérification des agences
+//            boolean agenceExiste = false;
+//            for (Agence agence : this.hotelrepository.getAgences()) {
+//                if (agence.getId().equals(identifiantclientStr) &&
+//                        agence.getMotdepasse().equals(motdepasseclient)) {
+//                    agenceExiste = true;
+//                    break;
+//                }
+//            }
+//
+//            if (!agenceExiste) {
+//                throw new ExceptionClient("Agence non trouvée ou informations incorrectes");
+//            }
+//
+//            ArrayList<Offre> offresDisponible = new ArrayList<>();
+//
+//            // Vérification que l'hôtel et ses offres ne sont pas null
+//            if (this.hotelrepository != null && this.hotelrepository.getOffres() != null) {
+//                for (Offre offre : this.hotelrepository.getOffres()) {
+//                    try {
+//                        // Dates de l'offre
+//                        String offreDateDebut = offre.getDatedebutoffre();
+//                        String offreDateFin = offre.getDatedefinoffre();
+//
+//                        // Vérification des conditions
+//                        boolean offreValide = (DateUtils.compareDates(offreDateDebut, dateFin) <= 0 && // Offre se termine après le début de la réservation
+//                                DateUtils.compareDates(offreDateFin, dateDebut) >= 0 && // Offre commence avant la fin de la réservation
+//                                offre.getChambres() != null &&
+//                                offre.getChambres().size() >= nombrePersonnes);
+//
+//                        // Ajout de l'offre si valide
+//                        if (offreValide) {
+//                            offresDisponible.add(offre);
+//                        }
+//                    } catch (Exception e) {
+//                        logger.error("Erreur lors du traitement de l'offre: " + offre.getId(), e);
+//                        continue; // Passer à l'offre suivante en cas d'erreur
+//                    }
+//                }
+//            }
+//
+//            return offresDisponible;
+//
+//        } catch (Exception e) {
+//            logger.error("Erreur lors de la recherche d'offres", e);
+//            throw new ExceptionClient("Erreur lors de la recherche d'offres: " + e.getMessage());
+//        }
+//    }
+    public List<Offre> getOffresDisponible(String identifiantclientStr, String motdepasseclient,
+                                           String dateDebut, String dateFin, int nombrePersonnes) throws ExceptionClient {
+        // Vérification de l'agence
+        boolean agenceExiste = this.hotelrepository.getAgences().stream()
+                .anyMatch(agence -> agence.getId().equals(identifiantclientStr) &&
+                        agence.getMotdepasse().equals(motdepasseclient));
 
-            if (!agenceExiste) {
-                throw new ExceptionClient("Agence non trouvée ou informations incorrectes");
-            }
-
-            ArrayList<Offre> offresDisponible = new ArrayList<>();
-
-            // Vérification que l'hôtel et ses offres ne sont pas null
-            if (this.hotelrepository != null && this.hotelrepository.getOffres() != null) {
-                for (Offre offre : this.hotelrepository.getOffres()) {
-                    try {
-                        if (DateUtils.compareDates(offre.getDatedebutoffre(), dateDebut) >= 0 &&
-                                DateUtils.compareDates(offre.getDatedefinoffre(), dateFin) <= 0 &&
-                                offre.getChambres() != null &&
-                                offre.getChambres().size() >= nombrePersonnes) {
-
-                            offresDisponible.add(offre);
-                        }
-                    } catch (Exception e) {
-                        logger.error("Erreur lors du traitement de l'offre: " + offre.getId(), e);
-                        continue; // Passer à l'offre suivante en cas d'erreur
-                    }
-                }
-            }
-
-            return offresDisponible;
-
-        } catch (Exception e) {
-            logger.error("Erreur lors de la recherche d'offres", e);
-            throw new ExceptionClient("Erreur lors de la recherche d'offres: " + e.getMessage());
+        if (!agenceExiste) {
+            throw new ExceptionClient("Agence non trouvée ou informations incorrectes");
         }
+
+        List<Offre> offresDisponible = new ArrayList<>();
+
+        // Vérification que l'hôtel et ses offres ne sont pas null
+        if (this.hotelrepository != null && this.hotelrepository.getOffres() != null) {
+            LocalDate debutReservation = LocalDate.parse(dateDebut);
+            LocalDate finReservation = LocalDate.parse(dateFin);
+
+            for (Offre offre : this.hotelrepository.getOffres()) {
+                try {
+                    LocalDate offreDateDebut = LocalDate.parse(offre.getDatedebutoffre());
+                    LocalDate offreDateFin = LocalDate.parse(offre.getDatedefinoffre());
+
+                    // Vérification des conditions
+                    if ((offreDateDebut.isBefore(finReservation) || offreDateDebut.isEqual(finReservation)) &&
+                            (offreDateFin.isAfter(debutReservation) || offreDateFin.isEqual(debutReservation)) &&
+                            offre.getChambres() != null &&
+                            offre.getChambres().size() >= nombrePersonnes) {
+                        offresDisponible.add(offre);
+                    }
+                } catch (DateTimeParseException e) {
+                    logger.error("Erreur lors du traitement de l'offre: " + offre.getId(), e);
+                }
+            }
+        }
+
+        return offresDisponible;
     }
+
 
 
 
