@@ -32,7 +32,6 @@ public class ObjectFactory {
     private final static QName _DeleteOffreResponse_QNAME = new QName("http://services.demo.tp2.hai702/", "deleteOffreResponse");
     private final static QName _UpdateOffreResponse_QNAME = new QName("http://services.demo.tp2.hai702/", "updateOffreResponse");
     private final static QName _AjoutOffreResponse_QNAME = new QName("http://services.demo.tp2.hai702/", "ajoutOffreResponse");
-    private final static QName _Hotel_QNAME = new QName("http://services.demo.tp2.hai702/", "hotel");
     private final static QName _GetOffresDisponibleResponse_QNAME = new QName("http://services.demo.tp2.hai702/", "getOffresDisponibleResponse");
     private final static QName _AjoutOffre_QNAME = new QName("http://services.demo.tp2.hai702/", "ajoutOffre");
     private final static QName _UpdateOffre_QNAME = new QName("http://services.demo.tp2.hai702/", "updateOffre");
@@ -136,14 +135,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Hotel }
-     * 
-     */
-    public Hotel createHotel() {
-        return new Hotel();
-    }
-
-    /**
      * Create an instance of {@link AjoutOffre }
      * 
      */
@@ -165,14 +156,6 @@ public class ObjectFactory {
      */
     public Chambre createChambre() {
         return new Chambre();
-    }
-
-    /**
-     * Create an instance of {@link Agence }
-     * 
-     */
-    public Agence createAgence() {
-        return new Agence();
     }
 
     /**
@@ -245,15 +228,6 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://services.demo.tp2.hai702/", name = "ajoutOffreResponse")
     public JAXBElement<AjoutOffreResponse> createAjoutOffreResponse(AjoutOffreResponse value) {
         return new JAXBElement<AjoutOffreResponse>(_AjoutOffreResponse_QNAME, AjoutOffreResponse.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Hotel }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://services.demo.tp2.hai702/", name = "hotel")
-    public JAXBElement<Hotel> createHotel(Hotel value) {
-        return new JAXBElement<Hotel>(_Hotel_QNAME, Hotel.class, null, value);
     }
 
     /**

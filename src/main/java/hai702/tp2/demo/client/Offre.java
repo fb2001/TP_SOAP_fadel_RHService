@@ -21,7 +21,6 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;sequence>
  *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="detail" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="hotel" type="{http://services.demo.tp2.hai702/}hotel" minOccurs="0"/>
  *         &lt;element name="chambres" type="{http://services.demo.tp2.hai702/}chambre" maxOccurs="unbounded" minOccurs="0"/>
  *         &lt;element name="datedebutoffre" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="datedefinoffre" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
@@ -38,7 +37,6 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "offre", propOrder = {
     "id",
     "detail",
-    "hotel",
     "chambres",
     "datedebutoffre",
     "datedefinoffre",
@@ -48,7 +46,6 @@ public class Offre {
 
     protected int id;
     protected String detail;
-    protected Hotel hotel;
     @XmlElement(nillable = true)
     protected List<Chambre> chambres;
     protected String datedebutoffre;
@@ -93,30 +90,6 @@ public class Offre {
      */
     public void setDetail(String value) {
         this.detail = value;
-    }
-
-    /**
-     * Obtient la valeur de la propriété hotel.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Hotel }
-     *     
-     */
-    public Hotel getHotel() {
-        return hotel;
-    }
-
-    /**
-     * Définit la valeur de la propriété hotel.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Hotel }
-     *     
-     */
-    public void setHotel(Hotel value) {
-        this.hotel = value;
     }
 
     /**

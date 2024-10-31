@@ -7,8 +7,12 @@ import hai702.tp2.demo.client.Offre;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -17,7 +21,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
+
 ///Service/wsdl/Service.wsdl
 /// reservationhotelreservationhotelservice
 
@@ -279,14 +283,14 @@ public class RHServiceClientCLI extends AbstractMain {
         try (Scanner scanner = new Scanner(System.in)) {
             switch (userInput) {
                 case "1":
-                    String identifiant = getInput(scanner, "Entrez votre identifiant : ");
-                    String motDePasse = getInput(scanner, "Entrez votre mot de passe : ");
-                    String dateDebut = getInput(scanner, "Entrez la date de début (yyyy/MM/dd) : ");
-                    String dateFin = getInput(scanner, "Entrez la date de fin (yyyy/MM/dd) : ");
-                    int nombrePersonnes = getIntInput(scanner, "Entrez le nombre de personnes : ");
-
-                    ArrayList<Offre> offre = (ArrayList<Offre>) proxy.getOffresDisponible(identifiant,motDePasse,dateDebut,dateFin,nombrePersonnes);
-                    System.out.println(offre.size());
+                    handleGetAvailableOffers();
+//                    String identifiant = getInput(scanner, "Entrez votre identifiant : ");
+//                    String motDePasse = getInput(scanner, "Entrez votre mot de passe : ");
+//                    String dateDebut = getInput(scanner, "Entrez la date de début (yyyy/MM/dd) : ");
+//                    String dateFin = getInput(scanner, "Entrez la date de fin (yyyy/MM/dd) : ");
+//                    int nombrePersonnes = getIntInput(scanner, "Entrez le nombre de personnes : ");
+//
+//                    ArrayList<Offre> offre = (ArrayList<Offre>) proxy.getOffresDisponible(identifiant,motDePasse,dateDebut,dateFin,nombrePersonnes);
                     break;
                 case "2":
                     System.out.println("hehe return : "+proxy.hehe());
@@ -300,6 +304,75 @@ public class RHServiceClientCLI extends AbstractMain {
             }
         }
     }
+    private void handleGetAvailableOffers() {
+        Scanner scanner = new Scanner(System.in);
+        try {
+            // Demande des informations à l'utilisateur
+            System.out.print("Entrez votre identifiant : ");
+            String identifiant = scanner.nextLine();
+
+            System.out.print("Entrez votre mot de passe : ");
+            String motDePasse = scanner.nextLine();
+
+            System.out.print("Entrez la date de début (yyyy-MM-dd) : ");
+            String dateDebut = scanner.nextLine();
+
+            System.out.print("Entrez la date de fin (yyyy-MM-dd) : ");
+            String dateFin = scanner.nextLine();
+
+            // Validation des dates
+            LocalDate dateDebutLocal;
+            LocalDate dateFinLocal;
+            try {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                dateDebutLocal = LocalDate.parse(dateDebut, formatter);
+                dateFinLocal = LocalDate.parse(dateFin, formatter);
+
+                if (dateDebutLocal.isAfter(dateFinLocal)) {
+                    System.err.println("La date de début doit être antérieure à la date de fin.");
+                    return;
+                }
+            } catch (DateTimeParseException e) {
+                System.err.println("Format de date invalide.");
+                return;
+            }
+
+            System.out.print("Entrez le nombre de personnes : ");
+            int nombrePersonnes;
+            try {
+                nombrePersonnes = Integer.parseInt(scanner.nextLine());
+                if (nombrePersonnes <= 0) {
+                    System.err.println("Le nombre de personnes doit être supérieur à zéro.");
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                System.err.println("Veuillez entrer un nombre valide pour le nombre de personnes.");
+                return;
+            }
+
+            // Appel de la méthode pour obtenir les offres disponibles
+            HotelService proxy = getProxy();
+            List<Offre> offres = proxy.getOffresDisponible(identifiant, motDePasse, dateDebutLocal.toString(), dateFinLocal.toString(), nombrePersonnes);
+
+            // Affichage des offres disponibles
+            if (offres.isEmpty()) {
+                System.out.println("Aucune offre disponible pour ces critères.");
+            } else {
+                System.out.println("Offres disponibles :");
+                for (Offre offre : offres) {
+                    System.out.println("ID: " + offre.getId() + ", Description: " + offre.getDetail() + ", Prix: " + offre.getPrixparjour() + "€");
+                }
+            }
+        } catch (ExceptionClient e) {
+            System.err.println("Erreur : " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Erreur inattendue : " + e.getMessage());
+        } finally {
+            // Fermeture du scanner
+            scanner.close();
+        }
+    }
+
 
     private String getInput(Scanner scanner, String prompt) {
         System.out.print(prompt);
