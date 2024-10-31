@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import static hai702.tp2.demo.model.Offre.dateToString;
 
@@ -59,11 +60,7 @@ public class HotelServicePublisher implements CommandLineRunner {
         Offre o3 = new Offre(3, "Chambre triple", hotel, chambres2, "2024-11-02", "2024-11-30", 120.0);
         Offre o4 = new Offre(4, "Suite luxe", hotel, chambres3, "2024-11-11", "2024-11-29", 300.0);
 
-       /* offresExistantes.add(new Offre(1, "Chambre simple", hotel, chambres1, "2024-10-25", "2024-10-28", 50.0));
-        offresExistantes.add(new Offre(2, "Chambre double", hotel, chambres1, "2024-10-25", "2024-10-28", 80.0));
-        offresExistantes.add(new Offre(3, "Chambre triple", hotel, chambres2, "2024-10-25", "2024-10-28", 120.0));
-        offresExistantes.add(new Offre(4, "Suite luxe", hotel, chambres3, "2024-10-25", "2024-10-28", 300.0));
-        */
+
         offresExistantes.add(o1);
         offresExistantes.add(o2);
         offresExistantes.add(o3);
@@ -74,7 +71,7 @@ public class HotelServicePublisher implements CommandLineRunner {
             // Publication du service Web
             //Endpoint.publish("http://localhost:8080/consultationDisponibilites", new ConsultationDisponibilitesServiceImpl(hotelRepository));
           //  Endpoint endpoint = Endpoint.create(hotelService);
-            Endpoint.publish(SERVICE_URI , new HotelServiceImpl(hotel));
+            Endpoint.publish(SERVICE_URI , new HotelServiceImpl());
             logger.info("Web Service successfully published at: {}", SERVICE_URI);
         } catch (Exception e) {
             logger.error("Error publishing web service: ", e);

@@ -16,17 +16,18 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @WebService
 @XmlSeeAlso({Offre.class, Hotel.class, Chambre.class})
 public interface HotelService {
 
     @WebMethod
-    ArrayList<Offre> getOffresDisponible(String identifiantclientStr,
-                                         String motdepasseclient,
-                                         String  dateDebut,
-                                         String dateFin,
-                                         int nombrePersonnes) throws ExceptionDateInvalide,ExceptionClient;
+    List<Offre> getOffresDisponible(String identifiantclientStr,
+                                    String motdepasseclient,
+                                    String  dateDebut,
+                                    String dateFin,
+                                    int nombrePersonnes) throws ExceptionDateInvalide,ExceptionClient;
 
     @WebMethod(operationName = "ajoutOffre")
     Offre ajoutOffre(Offre offre) throws ExceptionAlreadyexistoffre;
@@ -40,7 +41,7 @@ public interface HotelService {
     @WebMethod
     int hehe();
 
-    @WebMethod
+ /*   @WebMethod
      ArrayList<Offre> findAvailableOffers(Date dateDebutParsed, Date dateFinParsed, int nombrePersonnes, SimpleDateFormat sdf) throws ParseException ;
 
   /* @WebMethod

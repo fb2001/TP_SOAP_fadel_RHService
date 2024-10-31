@@ -10,7 +10,7 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "offre")
-
+@XmlRootElement
 public class Offre implements Serializable {
     private int id;
     private String detail;
@@ -22,6 +22,9 @@ public class Offre implements Serializable {
 
     public List<Chambre> getChambres() {
         return chambres;
+    }
+
+    public Offre() {
     }
 
     public void setChambres(List<Chambre> chambres) {

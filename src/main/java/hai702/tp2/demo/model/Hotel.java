@@ -5,6 +5,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
+
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Hotel implements Serializable {
@@ -67,7 +69,7 @@ public class Hotel implements Serializable {
         this.chambres = chambres;
     }
 
-    public ArrayList<Offre> getOffres() {
+    public List<Offre> getOffres() {
         return offres;
     }
 
