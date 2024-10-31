@@ -19,7 +19,7 @@ import java.util.Date;
 import java.util.List;
 
 @WebService
-@XmlSeeAlso({Offre.class, Hotel.class, Chambre.class})
+//@XmlSeeAlso({Offre.class, Hotel.class, Chambre.class})
 public interface HotelService {
 
     @WebMethod

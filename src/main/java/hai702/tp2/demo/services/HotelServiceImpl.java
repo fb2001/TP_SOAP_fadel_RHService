@@ -310,7 +310,9 @@ public class HotelServiceImpl implements HotelService {
 
 
     public HotelServiceImpl() {
-       repository = new HotelServiceRepositoryImpl();
+    }
+    public HotelServiceImpl(HotelServiceRepository repository) {
+        this.repository = repository;
     }
 
 //    @WebMethod

@@ -6,9 +6,14 @@ import hai702.tp2.demo.exceptions.ExceptionDateInvalide;
 import hai702.tp2.demo.exceptions.ExceptionDoesntexistoffre;
 import hai702.tp2.demo.model.Offre;
 
+import javax.jws.WebMethod;
+import javax.jws.WebService;
+import java.util.ArrayList;
 import java.util.List;
 
+
 public interface HotelServiceRepository {
+
     List<Offre> getOffresDisponible(String identifiantclientStr,
                                     String motdepasseclient,
                                     String  dateDebut,
@@ -21,8 +26,8 @@ public interface HotelServiceRepository {
 
 
     Offre updateOffre(Offre offre) throws ExceptionDoesntexistoffre;
-
     int hehe();
+
 
 //    ArrayList<Offre> findAvailableOffers(Date dateDebutParsed, Date dateFinParsed, int nombrePersonnes, SimpleDateFormat sdf) throws ParseException;
 

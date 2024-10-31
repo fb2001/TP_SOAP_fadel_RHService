@@ -14,24 +14,24 @@ import java.util.List;
 public class Offre implements Serializable {
     private int id;
     private String detail;
-    private Hotel hotel;
-    private List<Chambre> chambres;
+   // private Hotel hotel;
+    private ArrayList<Chambre> chambres;
     private String datedebutoffre;
     private String datedefinoffre;
     private double prixparjour;
 
-    public List<Chambre> getChambres() {
+    public ArrayList<Chambre> getChambres() {
         return chambres;
     }
 
     public Offre() {
     }
 
-    public void setChambres(List<Chambre> chambres) {
+    public void setChambres(ArrayList<Chambre> chambres) {
         this.chambres = chambres;
     }
 
-    public Offre(int id, String detail, Hotel hotel, ArrayList<Chambre> chambres,
+    public Offre(int id, String detail, ArrayList<Chambre> chambres,
                  String datedebutoffre, String datedefinoffre,
                  double prixparjour) throws ExceptionDateInvalide {
         if (!DateUtils.isValidDateString(datedebutoffre) || !DateUtils.isValidDateString(datedefinoffre)) {
@@ -39,20 +39,22 @@ public class Offre implements Serializable {
         }
         this.id = id;
         this.detail = detail;
-        this.hotel = hotel;
+       // this.hotel = hotel;
         this.chambres = chambres;
         this.datedebutoffre = datedebutoffre;
         this.datedefinoffre = datedefinoffre;
         this.prixparjour = prixparjour;
     }
 
-    public Hotel getHotel() {
+ /*   public Hotel getHotel() {
         return hotel;
     }
 
     public void setHotel(Hotel hotel) {
         this.hotel = hotel;
     }
+
+  */
 
     public String getDatedebutoffre() {
         return datedebutoffre;

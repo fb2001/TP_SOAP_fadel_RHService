@@ -69,7 +69,7 @@ public class Hotel implements Serializable {
         this.chambres = chambres;
     }
 
-    public List<Offre> getOffres() {
+    public ArrayList<Offre> getOffres() {
         return offres;
     }
 

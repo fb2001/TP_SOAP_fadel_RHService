@@ -14,48 +14,55 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.jws.WebService;
 
 public class HotelServiceRepositoryImpl implements HotelServiceRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(HotelServiceImpl.class);
     private static final String DATE_FORMAT = "yyyy-MM-dd";
     // private ArrayList<Offre> offresExistantes = new ArrayList<Offre>();
-    private Hotel hotel;
+    private HotelRepository hotelrepository;
 
 
 
     public HotelServiceRepositoryImpl() {
         // Initialisation de l'hôtel
-        this.hotel = new Hotel();
+        this.hotelrepository = new HotelRepositoryImpl();
 
-        // Initialisation des agences
-        ArrayList<Agence> agences = new ArrayList<>();
+
+
+
+      /*  ArrayList<Agence> agences = new ArrayList<>();
         agences.add(new Agence("1", "motdepasse"));
         agences.add(new Agence("2", "2"));
         this.hotel.setAgences(agences);
+*/
 
-        // Initialisation des chambres
-        ArrayList<Chambre> chambres1 = new ArrayList<>();
-        chambres1.add(new Chambre(1, "Chambre simple avec vue", 1));
-        chambres1.add(new Chambre(2, "Chambre double confortable", 2));
 
-        ArrayList<Chambre> chambres2 = new ArrayList<>();
-        chambres2.add(new Chambre(3, "Chambre triple spacieuse", 3));
-
-        ArrayList<Chambre> chambres3 = new ArrayList<>();
-        chambres3.add(new Chambre(4, "Suite luxe avec jacuzzi", 1));
-
-        // Initialisation des offres
-        ArrayList<Offre> offres = new ArrayList<>();
-        offres.add(new Offre(1, "Chambre simple", hotel, chambres1, "2024-11-20", "2024-11-26", 50.0));
-        offres.add(new Offre(2, "Chambre double", hotel, chambres1, "2024-11-05", "2024-11-29", 80.0));
-        offres.add(new Offre(3, "Chambre triple", hotel, chambres2, "2024-11-02", "2024-11-30", 120.0));
-        offres.add(new Offre(4, "Suite luxe", hotel, chambres3, "2024-11-11", "2024-11-29", 300.0));
-
-        // Attribution des offres à l'hôtel
-        this.hotel.setOffres(offres);
-
-        logger.info("Hôtel initialisé avec {} offres", offres.size());
+//
+//
+//        // Initialisation des chambres
+//        ArrayList<Chambre> chambres1 = new ArrayList<>();
+//        chambres1.add(new Chambre(1, "Chambre simple avec vue", 1));
+//        chambres1.add(new Chambre(2, "Chambre double confortable", 2));
+//
+//        ArrayList<Chambre> chambres2 = new ArrayList<>();
+//        chambres2.add(new Chambre(3, "Chambre triple spacieuse", 3));
+//
+//        ArrayList<Chambre> chambres3 = new ArrayList<>();
+//        chambres3.add(new Chambre(4, "Suite luxe avec jacuzzi", 1));
+//
+//        // Initialisation des offres
+//        ArrayList<Offre> offres = new ArrayList<>();
+//        offres.add(new Offre(1, "Chambre simple", hotel, chambres1, "2024-11-20", "2024-11-26", 50.0));
+//        offres.add(new Offre(2, "Chambre double", hotel, chambres1, "2024-11-05", "2024-11-29", 80.0));
+//        offres.add(new Offre(3, "Chambre triple", hotel, chambres2, "2024-11-02", "2024-11-30", 120.0));
+//        offres.add(new Offre(4, "Suite luxe", hotel, chambres3, "2024-11-11", "2024-11-29", 300.0));
+//
+//        // Attribution des offres à l'hôtel
+//        this.hotel.setOffres(offres);
+//
+//        logger.info("Hôtel initialisé avec {} offres", offres.size());
     }
     @Override
     public Offre ajoutOffre(Offre offre) throws ExceptionAlreadyexistoffre {
@@ -82,7 +89,7 @@ public class HotelServiceRepositoryImpl implements HotelServiceRepository {
         try {
             // Vérification des agences
             boolean agenceExiste = false;
-            for (Agence agence : this.hotel.getAgences()) {
+            for (Agence agence : this.hotelrepository.getAgences()) {
                 if (agence.getId().equals(identifiantclientStr) &&
                         agence.getMotdepasse().equals(motdepasseclient)) {
                     agenceExiste = true;
@@ -97,8 +104,8 @@ public class HotelServiceRepositoryImpl implements HotelServiceRepository {
             ArrayList<Offre> offresDisponible = new ArrayList<>();
 
             // Vérification que l'hôtel et ses offres ne sont pas null
-            if (this.hotel != null && this.hotel.getOffres() != null) {
-                for (Offre offre : this.hotel.getOffres()) {
+            if (this.hotelrepository != null && this.hotelrepository.getOffres() != null) {
+                for (Offre offre : this.hotelrepository.getOffres()) {
                     try {
                         if (DateUtils.compareDates(offre.getDatedebutoffre(), dateDebut) >= 0 &&
                                 DateUtils.compareDates(offre.getDatedefinoffre(), dateFin) <= 0 &&
