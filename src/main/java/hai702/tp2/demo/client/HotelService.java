@@ -7,7 +7,6 @@ import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.xml.bind.annotation.XmlSeeAlso;
-import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.ws.Action;
 import javax.xml.ws.FaultAction;
 import javax.xml.ws.RequestWrapper;
@@ -26,6 +25,38 @@ import javax.xml.ws.ResponseWrapper;
 })
 public interface HotelService {
 
+
+    /**
+     * 
+     * @param arg3
+     * @param arg2
+     * @param arg4
+     * @param arg1
+     * @param arg0
+     * @return
+     *     returns java.util.List<hai702.tp2.demo.client.Offre>
+     * @throws ExceptionClient
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getOffresDisponible", targetNamespace = "http://services.demo.tp2.hai702/", className = "hai702.tp2.demo.client.GetOffresDisponible")
+    @ResponseWrapper(localName = "getOffresDisponibleResponse", targetNamespace = "http://services.demo.tp2.hai702/", className = "hai702.tp2.demo.client.GetOffresDisponibleResponse")
+    @Action(input = "http://services.demo.tp2.hai702/HotelService/getOffresDisponibleRequest", output = "http://services.demo.tp2.hai702/HotelService/getOffresDisponibleResponse", fault = {
+        @FaultAction(className = ExceptionClient.class, value = "http://services.demo.tp2.hai702/HotelService/getOffresDisponible/Fault/ExceptionClient")
+    })
+    public List<Offre> getOffresDisponible(
+        @WebParam(name = "arg0", targetNamespace = "")
+        String arg0,
+        @WebParam(name = "arg1", targetNamespace = "")
+        String arg1,
+        @WebParam(name = "arg2", targetNamespace = "")
+        String arg2,
+        @WebParam(name = "arg3", targetNamespace = "")
+        String arg3,
+        @WebParam(name = "arg4", targetNamespace = "")
+        int arg4)
+        throws ExceptionClient
+    ;
 
     /**
      * 
@@ -82,67 +113,6 @@ public interface HotelService {
         @WebParam(name = "arg0", targetNamespace = "")
         Offre arg0)
         throws ExceptionDoesntexistoffre_Exception
-    ;
-
-    /**
-     * 
-     * @param arg3
-     * @param arg2
-     * @param arg4
-     * @param arg1
-     * @param arg0
-     * @return
-     *     returns java.util.List<hai702.tp2.demo.client.Offre>
-     * @throws ExceptionClient
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "getOffresDisponible", targetNamespace = "http://services.demo.tp2.hai702/", className = "hai702.tp2.demo.client.GetOffresDisponible")
-    @ResponseWrapper(localName = "getOffresDisponibleResponse", targetNamespace = "http://services.demo.tp2.hai702/", className = "hai702.tp2.demo.client.GetOffresDisponibleResponse")
-    @Action(input = "http://services.demo.tp2.hai702/HotelService/getOffresDisponibleRequest", output = "http://services.demo.tp2.hai702/HotelService/getOffresDisponibleResponse", fault = {
-        @FaultAction(className = ExceptionClient.class, value = "http://services.demo.tp2.hai702/HotelService/getOffresDisponible/Fault/ExceptionClient")
-    })
-    public List<Offre> getOffresDisponible(
-        @WebParam(name = "arg0", targetNamespace = "")
-        String arg0,
-        @WebParam(name = "arg1", targetNamespace = "")
-        String arg1,
-        @WebParam(name = "arg2", targetNamespace = "")
-        String arg2,
-        @WebParam(name = "arg3", targetNamespace = "")
-        String arg3,
-        @WebParam(name = "arg4", targetNamespace = "")
-        int arg4)
-        throws ExceptionClient
-    ;
-
-    /**
-     * 
-     * @param arg3
-     * @param arg2
-     * @param arg1
-     * @param arg0
-     * @return
-     *     returns java.util.List<hai702.tp2.demo.client.Offre>
-     * @throws ParseException_Exception
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "findAvailableOffers", targetNamespace = "http://services.demo.tp2.hai702/", className = "hai702.tp2.demo.client.FindAvailableOffers")
-    @ResponseWrapper(localName = "findAvailableOffersResponse", targetNamespace = "http://services.demo.tp2.hai702/", className = "hai702.tp2.demo.client.FindAvailableOffersResponse")
-    @Action(input = "http://services.demo.tp2.hai702/HotelService/findAvailableOffersRequest", output = "http://services.demo.tp2.hai702/HotelService/findAvailableOffersResponse", fault = {
-        @FaultAction(className = ParseException_Exception.class, value = "http://services.demo.tp2.hai702/HotelService/findAvailableOffers/Fault/ParseException")
-    })
-    public List<Offre> findAvailableOffers(
-        @WebParam(name = "arg0", targetNamespace = "")
-        XMLGregorianCalendar arg0,
-        @WebParam(name = "arg1", targetNamespace = "")
-        XMLGregorianCalendar arg1,
-        @WebParam(name = "arg2", targetNamespace = "")
-        int arg2,
-        @WebParam(name = "arg3", targetNamespace = "")
-        SimpleDateFormat arg3)
-        throws ParseException_Exception
     ;
 
     /**

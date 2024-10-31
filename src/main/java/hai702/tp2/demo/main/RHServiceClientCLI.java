@@ -5,6 +5,10 @@ import hai702.tp2.demo.client.HotelService;
 import hai702.tp2.demo.client.HotelServiceImplService;
 import hai702.tp2.demo.client.Offre;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 
@@ -223,6 +227,10 @@ public class RHServiceClientCLI extends AbstractMain {
         try (BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in))) {
             main.setTestServiceWSDLUrl(inputReader);
             proxy = getProxy();
+            if (proxy == null) {
+                System.err.println("Failed to initialize proxy. Please check if the service is running.");
+                return;
+            }
 
             main.menu();
             String userInput = inputReader.readLine();
@@ -254,8 +262,18 @@ public class RHServiceClientCLI extends AbstractMain {
     }
 
     private static HotelService getProxy() throws MalformedURLException {
-        return new HotelServiceImplService(new URL(SERVICE_WSDL_URL)).getHotelServiceImplPort();
+        try {
+            System.setProperty("com.sun.xml.ws.request.timeout", "30000"); // 30 secondes ajoutez un timeout plus long pour la connexion :
+            System.setProperty("com.sun.xml.ws.connect.timeout", "30000"); // 30 secondes ajoutez un timeout plus long pour la connexion :
+            return new HotelServiceImplService(new URL(SERVICE_WSDL_URL)).getHotelServiceImplPort();
+        } catch (Exception e) {
+            System.err.println("Error initializing proxy: " + e.getMessage());
+            return null;
+        }
     }
+
+
+
 
     private void processUserInput(String userInput, HotelService proxy) throws ExceptionClient {
         try (Scanner scanner = new Scanner(System.in)) {
@@ -263,11 +281,11 @@ public class RHServiceClientCLI extends AbstractMain {
                 case "1":
                     String identifiant = getInput(scanner, "Entrez votre identifiant : ");
                     String motDePasse = getInput(scanner, "Entrez votre mot de passe : ");
-                    String dateDebut = getInput(scanner, "Entrez la date de début (dd/MM/yyyy) : ");
-                    String dateFin = getInput(scanner, "Entrez la date de fin (dd/MM/yyyy) : ");
+                    String dateDebut = getInput(scanner, "Entrez la date de début (yyyy/MM/dd) : ");
+                    String dateFin = getInput(scanner, "Entrez la date de fin (yyyy/MM/dd) : ");
                     int nombrePersonnes = getIntInput(scanner, "Entrez le nombre de personnes : ");
 
-                    List<Offre> offre = proxy.getOffresDisponible(identifiant, motDePasse, dateDebut, dateFin, nombrePersonnes);
+                    ArrayList<Offre> offre = (ArrayList<Offre>) proxy.getOffresDisponible(identifiant,motDePasse,dateDebut,dateFin,nombrePersonnes);
                     System.out.println(offre.size());
                     break;
                 case "2":
@@ -286,6 +304,19 @@ public class RHServiceClientCLI extends AbstractMain {
     private String getInput(Scanner scanner, String prompt) {
         System.out.print(prompt);
         return scanner.nextLine();
+    }
+    private Date getInputDAte(Scanner scanner, String prompt) {
+        System.out.print(prompt);
+        String input = scanner.nextLine();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd"); // Format attendu
+        dateFormat.setLenient(false); // Pour éviter des dates invalides
+
+        try {
+            return dateFormat.parse(input); // Tente de parser la date
+        } catch (ParseException e) {
+            System.out.println("Erreur : format de date invalide. Veuillez utiliser le format yyyy/MM/dd.");
+            return null; // Ou gérer cela comme vous le souhaitez
+        }
     }
 
     private int getIntInput(Scanner scanner, String prompt) {
