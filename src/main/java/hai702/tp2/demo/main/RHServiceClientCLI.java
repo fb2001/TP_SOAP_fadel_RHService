@@ -304,74 +304,101 @@ public class RHServiceClientCLI extends AbstractMain {
             }
         }
     }
+
     private void handleGetAvailableOffers() {
-        Scanner scanner = new Scanner(System.in);
-        try {
+        try (Scanner scanner = new Scanner(System.in)) {
             // Demande des informations à l'utilisateur
             System.out.print("Entrez votre identifiant : ");
             String identifiant = scanner.nextLine();
-
             System.out.print("Entrez votre mot de passe : ");
             String motDePasse = scanner.nextLine();
-
             System.out.print("Entrez la date de début (yyyy-MM-dd) : ");
             String dateDebut = scanner.nextLine();
-
             System.out.print("Entrez la date de fin (yyyy-MM-dd) : ");
             String dateFin = scanner.nextLine();
 
             // Validation des dates
-            LocalDate dateDebutLocal;
-            LocalDate dateFinLocal;
-            try {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                dateDebutLocal = LocalDate.parse(dateDebut, formatter);
-                dateFinLocal = LocalDate.parse(dateFin, formatter);
-
-                if (dateDebutLocal.isAfter(dateFinLocal)) {
-                    System.err.println("La date de début doit être antérieure à la date de fin.");
-                    return;
-                }
-            } catch (DateTimeParseException e) {
-                System.err.println("Format de date invalide.");
+            LocalDate dateDebutLocal = parseDate(dateDebut);
+            LocalDate dateFinLocal = parseDate(dateFin);
+            if (dateDebutLocal.isAfter(dateFinLocal)) {
+                System.err.println("La date de début doit être antérieure à la date de fin.");
                 return;
             }
 
             System.out.print("Entrez le nombre de personnes : ");
-            int nombrePersonnes;
-            try {
-                nombrePersonnes = Integer.parseInt(scanner.nextLine());
-                if (nombrePersonnes <= 0) {
-                    System.err.println("Le nombre de personnes doit être supérieur à zéro.");
-                    return;
-                }
-            } catch (NumberFormatException e) {
-                System.err.println("Veuillez entrer un nombre valide pour le nombre de personnes.");
-                return;
-            }
+            int nombrePersonnes = readInteger(scanner);
 
             // Appel de la méthode pour obtenir les offres disponibles
             HotelService proxy = getProxy();
-            List<Offre> offres = proxy.getOffresDisponible(identifiant, motDePasse, dateDebutLocal.toString(), dateFinLocal.toString(), nombrePersonnes);
+            List<Offre> offres = proxy.getOffresDisponible(identifiant, motDePasse, dateDebut, dateFin, nombrePersonnes);
 
             // Affichage des offres disponibles
-            if (offres.isEmpty()) {
-                System.out.println("Aucune offre disponible pour ces critères.");
-            } else {
-                System.out.println("Offres disponibles :");
-                for (Offre offre : offres) {
-                    System.out.println("ID: " + offre.getId() + ", Description: " + offre.getDetail() + ", Prix: " + offre.getPrixparjour() + "€");
-                }
-            }
+            afficherOffres(offres, dateDebutLocal, dateFinLocal);
         } catch (ExceptionClient e) {
             System.err.println("Erreur : " + e.getMessage());
         } catch (Exception e) {
             System.err.println("Erreur inattendue : " + e.getMessage());
-        } finally {
-            // Fermeture du scanner
-            scanner.close();
         }
     }
+
+    // Méthode pour parser la date
+    private LocalDate parseDate(String date) {
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            return LocalDate.parse(date, formatter);
+        } catch (DateTimeParseException e) {
+            System.err.println("Format de date invalide. Veuillez entrer une date au format yyyy-MM-dd.");
+            throw e; // Rethrow exception to handle it in the calling method
+        }
+    }
+
+    // Méthode pour lire un entier
+    private int readInteger(Scanner scanner) {
+        while (true) {
+            try {
+                int nombrePersonnes = Integer.parseInt(scanner.nextLine());
+                if (nombrePersonnes <= 0) {
+                    System.err.println("Le nombre de personnes doit être supérieur à zéro.");
+                    continue;
+                }
+                return nombrePersonnes;
+            } catch (NumberFormatException e) {
+                System.err.println("Veuillez entrer un nombre valide pour le nombre de personnes.");
+            }
+        }
+    }
+
+    // Affichage des offres
+    private void afficherOffres(List<Offre> offres, LocalDate dateDebutLocal, LocalDate dateFinLocal) {
+        if (offres.isEmpty()) {
+            System.out.println("Aucune offre disponible pour ces critères.");
+        } else {
+            System.out.println("Offres disponibles correspondant aux critères :");
+            for (Offre offre : offres) {
+                if (estOffreValide(offre, dateDebutLocal, dateFinLocal)) {
+                    System.out.println("ID: " + offre.getId() +
+                            ", Description: " + offre.getDetail() +
+                            ", Période: " + offre.getDatedebutoffre() + " - " + offre.getDatedefinoffre() +
+                            ", Prix: " + offre.getPrixparjour() + "€");
+                }
+            }
+        }
+    }
+
+
+    // Méthode pour vérifier si l'offre chevauche la période de réservation
+    private boolean estOffreValide(Offre offre, LocalDate dateDebutLocal, LocalDate dateFinLocal) {
+        LocalDate offreDateDebut = LocalDate.parse(offre.getDatedebutoffre());
+        LocalDate offreDateFin = LocalDate.parse(offre.getDatedefinoffre());
+
+        // Retourne vrai si l'une des conditions de chevauchement est remplie
+        return !(dateFinLocal.isBefore(offreDateDebut) || dateDebutLocal.isAfter(offreDateFin));
+    }
+
+
+
+
+
 
 
     private String getInput(Scanner scanner, String prompt) {
@@ -381,13 +408,13 @@ public class RHServiceClientCLI extends AbstractMain {
     private Date getInputDAte(Scanner scanner, String prompt) {
         System.out.print(prompt);
         String input = scanner.nextLine();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd"); // Format attendu
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // Format attendu
         dateFormat.setLenient(false); // Pour éviter des dates invalides
 
         try {
             return dateFormat.parse(input); // Tente de parser la date
         } catch (ParseException e) {
-            System.out.println("Erreur : format de date invalide. Veuillez utiliser le format yyyy/MM/dd.");
+            System.out.println("Erreur : format de date invalide. Veuillez utiliser le format yyyy-MM-dd.");
             return null; // Ou gérer cela comme vous le souhaitez
         }
     }

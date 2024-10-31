@@ -15,7 +15,7 @@ public class ReservationHotelUI implements CommandLineRunner {
 
     private HotelService hotelService;
 
-    public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 
     @Override
     public void run(String... args) throws Exception {
@@ -32,11 +32,11 @@ try{
         //String motDePasse = scanner.nextLine();
     String motDePasse = "motdepasse";
 
-            System.out.print("Entrez la date de début (dd/MM/yyyy) : ");
+            System.out.print("Entrez la date de début (yyyy/MM/dd) : ");
         //String dateDebut = scanner.nextLine();
         String dateDebut = "2024-10-25";
 
-        System.out.print("Entrez la date de fin (dd/MM/yyyy) : ");
+        System.out.print("Entrez la date de fin (yyyy/MM/dd) : ");
         //String dateFin = scanner.nextLine();
         String dateFin = "2024-10-28";
 
