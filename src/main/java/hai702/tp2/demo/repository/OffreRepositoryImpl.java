@@ -2,18 +2,16 @@ package hai702.tp2.demo.repository;
 
 import hai702.tp2.demo.exceptions.ExceptionDateInvalide;
 import hai702.tp2.demo.model.Chambre;
-import hai702.tp2.demo.model.Hotel;
 import hai702.tp2.demo.model.Offre;
 import hai702.tp2.demo.utils.DateUtils;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class OffreRepositoryImpl implements OffreRepository{
     private  ArrayList<Offre> offres;
    // private  HotelRepository hotel = new HotelRepositoryImpl();
     private ChambreRepository chambres = new ChambreRepositoryImpl();
-  //  private AgenceRepository agences = new AgenceRepositoryImpl();
+   // private AgenceRepository agences = new AgenceRepositoryImpl();
 
     // Constructeur de la classe
     public OffreRepositoryImpl() {
@@ -74,12 +72,15 @@ public class OffreRepositoryImpl implements OffreRepository{
             }
 
             // Créer l'offre avec les chambres sélectionnées
-            Offre offre = new Offre(i + 1, // ID de l'offre
-                    "Offre " + (i + 1), // Nom de l'offre
-                    (ArrayList<Chambre>) selectedChambres, // Les chambres sélectionnées
-                    "2024-11-20", // Date de début
-                    "2024-11-26", // Date de fin
-                    50.0 + (i * 10)); // Prix
+            Offre offre = new Offre(i + 1,
+                    "Offre " + (i + 1),
+                    (ArrayList<Chambre>) selectedChambres,
+                    "2024-11-20",
+                    "2024-11-26",
+                    50.0 + (i * 10));
+
+            // Définir l'image en fonction de la capacité
+            offre.setImageBasedOnCapacity();
 
             offres.add(offre);
             combinaisonsUtilisees.add(selectedChambres); // Ajouter la combinaison utilisée
@@ -119,10 +120,10 @@ public class OffreRepositoryImpl implements OffreRepository{
     }
 
     @Override
-    public Optional<Offre> findById(int id) {
+    public Offre findById(int id) {
         return offres.stream()
                 .filter(offre -> offre.getId() == id)
-                .findFirst();
+                .findFirst().get();
     }
 
     @Override

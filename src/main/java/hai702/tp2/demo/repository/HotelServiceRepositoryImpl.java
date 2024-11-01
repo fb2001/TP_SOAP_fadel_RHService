@@ -85,7 +85,6 @@ public class HotelServiceRepositoryImpl implements HotelServiceRepository {
         return 1;
     }
 
-    @Override
 //    public ArrayList<Offre> getOffresDisponible(String identifiantclientStr, String motdepasseclient,
 //                                                String dateDebut, String dateFin, int nombrePersonnes) throws ExceptionClient {
 //        try {
@@ -137,6 +136,12 @@ public class HotelServiceRepositoryImpl implements HotelServiceRepository {
 //            throw new ExceptionClient("Erreur lors de la recherche d'offres: " + e.getMessage());
 //        }
 //    }
+    @Override
+    public ArrayList<Offre> getAllOffres(){
+        return this.hotelrepository.getOffres();
+    }
+
+    @Override
     public List<Offre> getOffresDisponible(String identifiantclientStr, String motdepasseclient,
                                            String dateDebut, String dateFin, int nombrePersonnes) throws ExceptionClient {
         // Vérification de l'agence

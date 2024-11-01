@@ -3,7 +3,7 @@ package hai702.tp2.demo.model;
 import hai702.tp2.demo.exceptions.ExceptionDateInvalide;
 import hai702.tp2.demo.utils.DateUtils;
 import javax.xml.bind.annotation.*;
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,6 +20,10 @@ public class Offre implements Serializable {
     private String datedefinoffre;
     private double prixparjour;
 
+
+
+
+
     public ArrayList<Chambre> getChambres() {
         return chambres;
     }
@@ -33,7 +37,7 @@ public class Offre implements Serializable {
 
     public Offre(int id, String detail, ArrayList<Chambre> chambres,
                  String datedebutoffre, String datedefinoffre,
-                 double prixparjour) throws ExceptionDateInvalide {
+                 double prixparjour ) throws ExceptionDateInvalide {
         if (!DateUtils.isValidDateString(datedebutoffre) || !DateUtils.isValidDateString(datedefinoffre)) {
             throw new ExceptionDateInvalide("Les dates fournies ne sont pas valides");
         }
@@ -44,6 +48,7 @@ public class Offre implements Serializable {
         this.datedebutoffre = datedebutoffre;
         this.datedefinoffre = datedefinoffre;
         this.prixparjour = prixparjour;
+      //  this.imageUrl = imageUrl;
     }
 
  /*   public Hotel getHotel() {
@@ -55,6 +60,51 @@ public class Offre implements Serializable {
     }
 
   */
+ public void setImageBasedOnCapacity() {
+     if (this.chambres != null && !this.chambres.isEmpty()) {
+         for (Chambre chambre : this.chambres) {
+             String basePath = "hai702/tp2/demo/image/";
+             switch (chambre.getNombrelit()) {
+                 case 1:
+                     chambre.setImageUrl(basePath + "single.jpg");
+                     break;
+                 case 2:
+                     chambre.setImageUrl(basePath + "2lits.jpg");
+                     break;
+                 case 3:
+                     chambre.setImageUrl(basePath + "3lit.jpg");
+                     break;
+                 case 4:
+                     chambre.setImageUrl(basePath + "jacuzi.jpg");
+                     break;
+                 default:
+                     chambre.setImageUrl(basePath + "default.jpg");
+                     break;
+             }
+         }
+     }
+ }
+
+
+    private byte[] loadImageAsBytes(String imagePath) {
+        try {
+            File file = new File(imagePath);
+            FileInputStream fis = new FileInputStream(file);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = fis.read(buffer)) != -1) {
+                bos.write(buffer, 0, bytesRead);
+            }
+            fis.close();
+            return bos.toByteArray();
+        } catch (IOException e) {
+            System.err.println("Erreur lors du chargement de l'image : " + imagePath);
+            System.err.println("Exception: " + e);
+            return null;
+        }
+    }
+
 
     public String getDatedebutoffre() {
         return datedebutoffre;
@@ -110,8 +160,7 @@ public class Offre implements Serializable {
                 ", prixparjour=" + prixparjour +
                 ", datedebutoffre=" + datedebutoffre +
                 ", datedefinoffre=" + datedefinoffre +
-                ", chambres=" + chambres +
-                '}';
+                ", chambres=" + chambres ;
     }
 
     // Ces méthodes statiques peuvent être déplacées vers DateUtils

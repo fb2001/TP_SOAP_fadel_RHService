@@ -15,6 +15,8 @@ public interface ChambreRepository {
     ArrayList<Chambre> getChambres();
     Chambre getChambreByID(long id);
 
+
+
     /*
     Chambre getChambreById(int idChambre);
 

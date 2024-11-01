@@ -8,7 +8,6 @@ import hai702.tp2.demo.model.Offre;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class HotelRepositoryImpl implements HotelRepository {
 
@@ -73,6 +72,7 @@ public class HotelRepositoryImpl implements HotelRepository {
     public Hotel getHotel() {
         return this.hotel;
     }
+
 
 
 }

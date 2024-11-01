@@ -27,6 +27,7 @@ public interface HotelServiceRepository {
 
     Offre updateOffre(Offre offre) throws ExceptionDoesntexistoffre;
     int hehe();
+    ArrayList<Offre> getAllOffres();
 
 
 //    ArrayList<Offre> findAvailableOffers(Date dateDebutParsed, Date dateFinParsed, int nombrePersonnes, SimpleDateFormat sdf) throws ParseException;

@@ -41,6 +41,9 @@ public interface HotelService {
     @WebMethod
     int hehe();
 
+    @WebMethod
+    byte[] getChambreImage(int idOffre, int idChambre) ;
+
  /*   @WebMethod
      ArrayList<Offre> findAvailableOffers(Date dateDebutParsed, Date dateFinParsed, int nombrePersonnes, SimpleDateFormat sdf) throws ParseException ;
 

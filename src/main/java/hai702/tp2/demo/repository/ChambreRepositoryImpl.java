@@ -11,14 +11,20 @@ public class ChambreRepositoryImpl implements ChambreRepository {
     private final ArrayList<Chambre> chambres =  new ArrayList<>();
 
     public ChambreRepositoryImpl() {
-        Chambre c1 = new Chambre(1, "Chambre simple avec vue", 1);
+        Chambre c1 = new Chambre(1, "Chambre simple avec vue", 1 );
         Chambre c2 = new Chambre(2, "Chambre double confortable", 2);
         Chambre c3 = new Chambre(3, "Chambre triple spacieuse", 3);
         Chambre c4 = new Chambre(4, "Suite luxe avec jacuzzi", 1);
+        c1.setImageUrl("/Users/fadelbenomar/Desktop/s1-Master/Dell/Master_s1/architectures_distribuées/SOAP/RHSOAPWebService/src/main/java/hai702/tp2/demo/image/single.jpg");
+        c2.setImageUrl("/Users/fadelbenomar/Desktop/s1-Master/Dell/Master_s1/architectures_distribuées/SOAP/RHSOAPWebService/src/main/java/hai702/tp2/demo/image/2lits.jpg");
+        c3.setImageUrl("/Users/fadelbenomar/Desktop/s1-Master/Dell/Master_s1/architectures_distribuées/SOAP/RHSOAPWebService/src/main/java/hai702/tp2/demo/image/3lits.jpg");
+        c4.setImageUrl("/Users/fadelbenomar/Desktop/s1-Master/Dell/Master_s1/architectures_distribuées/SOAP/RHSOAPWebService/src/main/java/hai702/tp2/demo/image/jacuzi.jpg");
+
         chambres.add(c1);
         chambres.add(c2);
         chambres.add(c3);
         chambres.add(c4);
+
     }
     @Override
     public ArrayList<Chambre> getChambres() {

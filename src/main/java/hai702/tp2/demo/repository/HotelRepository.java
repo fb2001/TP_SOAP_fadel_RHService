@@ -15,5 +15,5 @@ public interface HotelRepository {
     ArrayList<Agence> getAgences();
     ArrayList<Offre> getOffres();
     Hotel getHotel();
-
+   // List<Integer> getidChambrebyIdOffre(int idoffre);
 }
