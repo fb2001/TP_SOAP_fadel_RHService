@@ -28,18 +28,6 @@ public interface HotelService {
 
     /**
      * 
-     * @return
-     *     returns int
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "hehe", targetNamespace = "http://services.demo.tp2.hai702/", className = "hai702.tp2.demo.client.Hehe")
-    @ResponseWrapper(localName = "heheResponse", targetNamespace = "http://services.demo.tp2.hai702/", className = "hai702.tp2.demo.client.HeheResponse")
-    @Action(input = "http://services.demo.tp2.hai702/HotelService/heheRequest", output = "http://services.demo.tp2.hai702/HotelService/heheResponse")
-    public int hehe();
-
-    /**
-     * 
      * @param arg3
      * @param arg2
      * @param arg4
@@ -144,5 +132,17 @@ public interface HotelService {
         int arg0,
         @WebParam(name = "arg1", targetNamespace = "")
         int arg1);
+
+    /**
+     * 
+     * @return
+     *     returns int
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "hehe", targetNamespace = "http://services.demo.tp2.hai702/", className = "hai702.tp2.demo.client.Hehe")
+    @ResponseWrapper(localName = "heheResponse", targetNamespace = "http://services.demo.tp2.hai702/", className = "hai702.tp2.demo.client.HeheResponse")
+    @Action(input = "http://services.demo.tp2.hai702/HotelService/heheRequest", output = "http://services.demo.tp2.hai702/HotelService/heheResponse")
+    public int hehe();
 
 }

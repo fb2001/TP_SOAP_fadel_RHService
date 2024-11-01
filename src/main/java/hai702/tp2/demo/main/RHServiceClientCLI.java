@@ -335,6 +335,9 @@ public class RHServiceClientCLI extends AbstractMain {
                 details.numberOfPeople
         );
 
+        // Log the raw response
+        System.out.println("Offers retrieved: " + offers);  // This should show the number of offers and their details.
+
         displayFilteredOffers(offers, details.numberOfPeople);
 
         if (!offers.isEmpty()) {
@@ -369,11 +372,36 @@ public class RHServiceClientCLI extends AbstractMain {
     }
 
 
-    private List<Chambre> filterChambresByCapacity(List<Chambre> chambres, int numberOfPeople) {
-        return chambres.stream()
-                .filter(chambre -> chambre.getNombrelit() >= numberOfPeople) // Change to >= to accommodate multiple options
-                .collect(Collectors.toList());
+//    private List<Chambre> filterChambresByCapacity(List<Chambre> chambres, int numberOfPeople) {
+//        return chambres.stream()
+//                .filter(chambre -> chambre.getNombrelit() >= numberOfPeople) // Change to >= to accommodate multiple options
+//                .collect(Collectors.toList());
+//    }
+private List<Chambre> filterChambresByCapacity(List<Chambre> chambres, int numberOfPeople) {
+    // Stratégie 1 : Trouver des chambres individuelles
+    List<Chambre> individualRooms = chambres.stream()
+            .filter(chambre -> chambre.getNombrelit() >= numberOfPeople)
+            .collect(Collectors.toList());
+
+    if (!individualRooms.isEmpty()) {
+        return individualRooms;
     }
+
+    // Stratégie 2 : Combiner des chambres pour atteindre le nombre de personnes
+    List<Chambre> combinedRooms = new ArrayList<>();
+    int totalCapacity = 0;
+
+    for (Chambre chambre : chambres) {
+        combinedRooms.add(chambre);
+        totalCapacity += chambre.getNombrelit();
+
+        if (totalCapacity >= numberOfPeople) {
+            return combinedRooms;
+        }
+    }
+
+    return new ArrayList<>(); // Aucune solution trouvée
+}
 
     private UserCredentials getUserCredentials() {
         System.out.print("Enter username: ");
