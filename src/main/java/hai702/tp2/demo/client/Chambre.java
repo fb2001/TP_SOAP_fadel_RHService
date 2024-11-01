@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="idchambre" type="{http://www.w3.org/2001/XMLSchema}long"/>
  *         &lt;element name="description" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="nombrelit" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         &lt;element name="imageUrl" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -32,7 +33,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "chambre", propOrder = {
     "idchambre",
     "description",
-    "nombrelit"
+    "nombrelit",
+    "imageUrl"
 })
 public class Chambre {
 
@@ -40,6 +42,7 @@ public class Chambre {
     @XmlElement(required = true)
     protected String description;
     protected int nombrelit;
+    protected String imageUrl;
 
     /**
      * Obtient la valeur de la propriété idchambre.
@@ -95,6 +98,30 @@ public class Chambre {
      */
     public void setNombrelit(int value) {
         this.nombrelit = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété imageUrl.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    /**
+     * Définit la valeur de la propriété imageUrl.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setImageUrl(String value) {
+        this.imageUrl = value;
     }
 
 }

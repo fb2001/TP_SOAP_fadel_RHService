@@ -127,4 +127,22 @@ public interface HotelService {
         throws ExceptionDoesntexistoffre_Exception
     ;
 
+    /**
+     * 
+     * @param arg1
+     * @param arg0
+     * @return
+     *     returns byte[]
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getChambreImage", targetNamespace = "http://services.demo.tp2.hai702/", className = "hai702.tp2.demo.client.GetChambreImage")
+    @ResponseWrapper(localName = "getChambreImageResponse", targetNamespace = "http://services.demo.tp2.hai702/", className = "hai702.tp2.demo.client.GetChambreImageResponse")
+    @Action(input = "http://services.demo.tp2.hai702/HotelService/getChambreImageRequest", output = "http://services.demo.tp2.hai702/HotelService/getChambreImageResponse")
+    public byte[] getChambreImage(
+        @WebParam(name = "arg0", targetNamespace = "")
+        int arg0,
+        @WebParam(name = "arg1", targetNamespace = "")
+        int arg1);
+
 }

@@ -25,6 +25,7 @@ import javax.xml.namespace.QName;
 public class ObjectFactory {
 
     private final static QName _Hehe_QNAME = new QName("http://services.demo.tp2.hai702/", "hehe");
+    private final static QName _GetChambreImageResponse_QNAME = new QName("http://services.demo.tp2.hai702/", "getChambreImageResponse");
     private final static QName _ExceptionAlreadyexistoffre_QNAME = new QName("http://services.demo.tp2.hai702/", "ExceptionAlreadyexistoffre");
     private final static QName _Offre_QNAME = new QName("http://services.demo.tp2.hai702/", "offre");
     private final static QName _DeleteOffre_QNAME = new QName("http://services.demo.tp2.hai702/", "deleteOffre");
@@ -34,10 +35,12 @@ public class ObjectFactory {
     private final static QName _AjoutOffreResponse_QNAME = new QName("http://services.demo.tp2.hai702/", "ajoutOffreResponse");
     private final static QName _GetOffresDisponibleResponse_QNAME = new QName("http://services.demo.tp2.hai702/", "getOffresDisponibleResponse");
     private final static QName _AjoutOffre_QNAME = new QName("http://services.demo.tp2.hai702/", "ajoutOffre");
+    private final static QName _GetChambreImage_QNAME = new QName("http://services.demo.tp2.hai702/", "getChambreImage");
     private final static QName _UpdateOffre_QNAME = new QName("http://services.demo.tp2.hai702/", "updateOffre");
     private final static QName _GetOffresDisponible_QNAME = new QName("http://services.demo.tp2.hai702/", "getOffresDisponible");
     private final static QName _ExceptionClient_QNAME = new QName("http://services.demo.tp2.hai702/", "ExceptionClient");
     private final static QName _HeheResponse_QNAME = new QName("http://services.demo.tp2.hai702/", "heheResponse");
+    private final static QName _GetChambreImageResponseReturn_QNAME = new QName("", "return");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: hai702.tp2.demo.client
@@ -76,6 +79,14 @@ public class ObjectFactory {
      */
     public UpdateOffreResponse createUpdateOffreResponse() {
         return new UpdateOffreResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetChambreImageResponse }
+     * 
+     */
+    public GetChambreImageResponse createGetChambreImageResponse() {
+        return new GetChambreImageResponse();
     }
 
     /**
@@ -143,6 +154,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link GetChambreImage }
+     * 
+     */
+    public GetChambreImage createGetChambreImage() {
+        return new GetChambreImage();
+    }
+
+    /**
      * Create an instance of {@link GetOffresDisponibleResponse }
      * 
      */
@@ -165,6 +184,15 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://services.demo.tp2.hai702/", name = "hehe")
     public JAXBElement<Hehe> createHehe(Hehe value) {
         return new JAXBElement<Hehe>(_Hehe_QNAME, Hehe.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetChambreImageResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://services.demo.tp2.hai702/", name = "getChambreImageResponse")
+    public JAXBElement<GetChambreImageResponse> createGetChambreImageResponse(GetChambreImageResponse value) {
+        return new JAXBElement<GetChambreImageResponse>(_GetChambreImageResponse_QNAME, GetChambreImageResponse.class, null, value);
     }
 
     /**
@@ -249,6 +277,15 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetChambreImage }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://services.demo.tp2.hai702/", name = "getChambreImage")
+    public JAXBElement<GetChambreImage> createGetChambreImage(GetChambreImage value) {
+        return new JAXBElement<GetChambreImage>(_GetChambreImage_QNAME, GetChambreImage.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link UpdateOffre }{@code >}}
      * 
      */
@@ -282,6 +319,15 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://services.demo.tp2.hai702/", name = "heheResponse")
     public JAXBElement<HeheResponse> createHeheResponse(HeheResponse value) {
         return new JAXBElement<HeheResponse>(_HeheResponse_QNAME, HeheResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link byte[]}{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "", name = "return", scope = GetChambreImageResponse.class)
+    public JAXBElement<byte[]> createGetChambreImageResponseReturn(byte[] value) {
+        return new JAXBElement<byte[]>(_GetChambreImageResponseReturn_QNAME, byte[].class, GetChambreImageResponse.class, ((byte[]) value));
     }
 
 }
