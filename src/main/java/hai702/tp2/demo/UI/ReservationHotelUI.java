@@ -1,8 +1,8 @@
 package hai702.tp2.demo.UI;
 
-import hai702.tp2.demo.client.ExceptionClient;
-import hai702.tp2.demo.client.HotelService;
-import hai702.tp2.demo.client.Offre;
+import hai702.tp2.demo.client.dispo.ExceptionClient;
+import hai702.tp2.demo.client.dispo.HotelService;
+import hai702.tp2.demo.client.dispo.Offre;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 

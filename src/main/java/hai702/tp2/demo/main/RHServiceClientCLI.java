@@ -1,18 +1,20 @@
 package hai702.tp2.demo.main;
 
-import hai702.tp2.demo.client.*;
-import org.apache.tomcat.jni.Time;
+import hai702.tp2.demo.client.dispo.*;
+import hai702.tp2.demo.client.reservation.Client;
+import hai702.tp2.demo.client.reservation.ReservationService;
+import hai702.tp2.demo.client.reservation.ReservationServiceImplService;
 
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.ws.WebServiceException;
 import java.io.*;
+import java.lang.Exception;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -24,261 +26,41 @@ import java.util.stream.Collectors;
 ///Service/wsdl/Service.wsdl
 /// reservationhotelreservationhotelservice
 
-/*public class RHServiceClientCLI extends AbstractMain {
 
-    private BufferedReader inputReader;
 
-    public static void main(String[] args) {
-        RHServiceClientCLI main = new RHServiceClientCLI();
-        HotelService proxy = null;
-        private static final String SERVICE_WSDL_URL = "http://localhost:8080/reservationhotelservice?wsdl";
-        private HotelService proxy =  new HotelServiceImplService();
-
-        System.setProperty("com.sun.xml.ws.transport.http.client.HttpTransportPipe.dump", "true");
-        System.setProperty("com.sun.xml.ws.transport.http.HttpAdapter.dump", "true");
-
-        RHServiceClientCLI cli = new RHServiceClientCLI();
-        cli.start();
-    }
-
-    public void start() {
-        try {
-            inputReader = new BufferedReader(new InputStreamReader(System.in));
-            setProxy();
-
-            String userInput;
-            do {
-                menu();
-                userInput = inputReader.readLine();
-                processUserInput(userInput);
-                Thread.sleep(3000);
-            } while (!userInput.equalsIgnoreCase("QUIT"));
-        } catch (MalformedURLException e) {
-            System.err.println("Invalid WSDL URL.");
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void setProxy() throws MalformedURLException {
-        proxy = new HotelServiceImplService(new URL(SERVICE_WSDL_URL)).getHotelServiceImplPort();
-    }
-
-    @Override
-    protected boolean validServiceWSDLUrl() {
-        return SERVICE_WSDL_URL.equals("http://localhost:8080/reservationhotelservice?wsdl");
-    }
-
-    @Override
-    public void menu() {
-        System.out.println("Menu:");
-        System.out.println("1. Display available offers.");
-        System.out.println("2. hehe fonction");
-        System.out.println("QUIT. Quit.");
-    }
-
-    private void processUserInput(String userInput) {
-        switch (userInput) {
-            case "1":
-                handleGetAvailableOffers();
-                break;
-            case "2":
-                proxy.hehe();
-                break;
-            case "QUIT":
-                System.out.println("Exiting...");
-                break;
-
-            default:
-                System.out.println("Invalid option, please try again.");
-                break;
-        }
-    }
-
-    private void handleGetAvailableOffers() {
-        Scanner scanner = new Scanner(System.in);
-
-        // Demande des informations à l'utilisateur
-        System.out.print("Entrez votre identifiant : ");
-        String identifiant = scanner.nextLine();
-
-        System.out.print("Entrez votre mot de passe : ");
-        String motDePasse = scanner.nextLine();
-
-        System.out.print("Entrez la date de début (dd/MM/yyyy) : ");
-        String dateDebut = scanner.nextLine();
-
-        System.out.print("Entrez la date de fin (dd/MM/yyyy) : ");
-        String dateFin = scanner.nextLine();
-
-        System.out.print("Entrez le nombre de personnes : ");
-        int nombrePersonnes = Integer.parseInt(scanner.nextLine());
-
-        try {
-            // Appel de la méthode pour obtenir les offres disponibles
-            List<Offre> offres = proxy.getOffresDisponible(identifiant, motDePasse, dateDebut, dateFin, nombrePersonnes);
-            // Affichage des offres disponibles
-            if (offres.isEmpty()) {
-                System.out.println("Aucune offre disponible pour ces critères.");
-            } else {
-                System.out.println("Offres disponibles :");
-                for (Offre offre : offres) {
-                    System.out.println("ID: " + offre.getId() + ", Description: " + offre.getDetail() + ", Prix: " + offre.getPrixparjour() + "€");
-                }
-            }
-        } catch (ExceptionClient e) {
-            System.err.println("Erreur : " + e.getMessage());
-        } catch (Exception e) {
-            System.err.println("Erreur inattendue : " + e.getMessage());
-        }
-    }
-
-}
-*/
-
-/*public class RHServiceClientCLI extends AbstractMain {
-    public static IntegerInputProcessor inputProcessor;
-    private static final String SERVICE_WSDL_URL = "http://localhost:8080/reservationhotelservice?wsdl";
-    private static final String QUIT = "Quit";
-
-    public static void main(String[] args) {
-        RHServiceClientCLI main = new RHServiceClientCLI();
-        HotelService proxy = null;
-        String userInput = "";
-
-        try (BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in))) {
-            main.setTestServiceWSDLUrl(inputReader);
-            proxy = getProxy();
-
-            do {
-                main.menu();
-                userInput = inputReader.readLine();
-                main.processUserInput(userInput, proxy);
-             //   Thread.sleep(3000);
-            } while (!userInput.equals(QUIT));
-
-        } catch (MalformedURLException e) {
-            System.err.println(SERVICE_WSDL_URL + " isn't a valid URL");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    protected boolean validServiceWSDLUrl() {
-        return SERVICE_WSDL_URL.equals("http://localhost:8080/reservationhotelservice?wsdl");
-    }
-
-    @Override
-    public void menu() {
-        System.out.println("Menu:");
-        System.out.println("1. Display available offers.");
-        System.out.println("2. hehe fonction");
-        System.out.println("QUIT. Quit.");
-    }
-
-    private static HotelService getProxy() throws MalformedURLException {
-        return new HotelServiceImplService(new URL(SERVICE_WSDL_URL)).getHotelServiceImplPort();
-    }
-
-    private void processUserInput(String userInput, HotelService proxy) {
-        try (Scanner scanner = new Scanner(System.in)) {
-            switch (userInput) {
-                case "1":
-                    System.out.print("Entrez votre identifiant : ");
-                    String identifiant = scanner.nextLine();
-
-                    System.out.print("Entrez votre mot de passe : ");
-                    String motDePasse = scanner.nextLine();
-
-                    System.out.print("Entrez la date de début (dd/MM/yyyy) : ");
-                    String dateDebut = scanner.nextLine();
-
-                    System.out.print("Entrez la date de fin (dd/MM/yyyy) : ");
-                    String dateFin = scanner.nextLine();
-
-                    System.out.print("Entrez le nombre de personnes : ");
-                    int nombrePersonnes = Integer.parseInt(scanner.nextLine());
-
-                    proxy.getOffresDisponible(identifiant, motDePasse, dateDebut, dateFin, nombrePersonnes);
-                    break;
-                case "2":
-                    proxy.hehe();
-                    break;
-                case QUIT:
-                    System.out.println("Bye");
-                    return;
-                default:
-                    System.out.println("Invalid option, please try again.");
-                    break;
-            }
-        } catch (ExceptionClient e) {
-            throw new RuntimeException(e);
-        }
-    }
-}
-*/
-
-//}
-import javax.xml.ws.WebServiceException;
-import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.util.List;
-import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class RHServiceClientCLI extends AbstractMain {
-    private static final String SERVICE_WSDL_URL = "http://localhost:8080/reservationhotelservice?wsdl";
-    private static final String BASE_URL = "http://localhost:8080/";
     private static final String QUIT = "Quit";
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    private final HotelService proxy;
-    private final Scanner scanner;
+    private ReservationService proxyReservation;
+    private Scanner scanner;
 
-    public RHServiceClientCLI() throws MalformedURLException {
-        this.proxy = initializeProxy();
-        this.scanner = new Scanner(System.in);
-    }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws MalformedURLException {
+        RHServiceClientCLI client = new RHServiceClientCLI();
+        client.scanner = new Scanner(System.in); // Initialize scanner here
+        BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
+        String userInput = "";
+
         try {
-            RHServiceClientCLI client = new RHServiceClientCLI();
-            if (client.proxy == null) {
-                System.err.println("Failed to initialize proxy. Please check if the service is running.");
-                return;
-            }
-            client.run();
-        } catch (MalformedURLException e) {
-            System.err.println(SERVICE_WSDL_URL + " isn't a valid URL");
-        } catch (Exception e) {
-            System.err.println("Unexpected error: " + e.getMessage());
-        }
-    }
-
-    private void run() {
-        try {
-            boolean running = true;
-            while (running) {
-                menu();
-                String userInput = scanner.nextLine().trim();
-                if (QUIT.equalsIgnoreCase(userInput)) {
-                    running = false;
-                } else {
-                    processUserInput(userInput);
-                }
-            }
+            do {
+                client.menu();  // Affiche le menu
+                userInput = inputReader.readLine();
+                client.processUserInput(inputReader, userInput);
+            } while (!userInput.equals(QUIT));
+        } catch (IOException | NoSuchMethodException | IllegalArgumentException | ExceptionClient e) {
+            System.err.println(e.getMessage());
         } finally {
-            scanner.close();
+            if (client.scanner != null) {
+                client.scanner.close(); // Close the scanner to prevent resource leaks
+            }
         }
     }
+
 
     @Override
     protected boolean validServiceWSDLUrl() {
-        return SERVICE_WSDL_URL.equals("http://localhost:8080/reservationhotelservice?wsdl");
+        return SERVICE_WSDL_URL.equals("http://localhost:8080/reservationhotelservice?wsdl") || SERVICE_WSDL_URL.equals("http://localhost:8080/effectuerReservation?wsdl");
     }
 
     @Override
@@ -286,41 +68,59 @@ public class RHServiceClientCLI extends AbstractMain {
         System.out.println("\nMenu:");
         System.out.println("1. Display available offers");
         System.out.println("2. Test connection");
+        System.out.println("3. Faire une reservation");
         System.out.println("Quit. Exit program");
     }
 
-    private static HotelService initializeProxy() throws MalformedURLException {
-        try {
-            System.setProperty("com.sun.xml.ws.request.timeout", "30000");
-            System.setProperty("com.sun.xml.ws.connect.timeout", "30000");
-            return new HotelServiceImplService(new URL(SERVICE_WSDL_URL)).getHotelServiceImplPort();
-        } catch (Exception e) {
-            System.err.println("Error initializing proxy: " + e.getMessage());
-            return null;
+    private void processUserInput(BufferedReader reader, String userInput) throws IOException, NoSuchMethodException, ExceptionClient {
+        switch (userInput) {
+            case "1":
+                // URL du service de consultation des disponibilités
+                SERVICE_WSDL_URL = "http://localhost:8080/reservationhotelservice?wsdl";
+                HotelService proxy = getProxyHotelservice();
+                handleAvailableOffers(proxy);
+                break;
+            case "2":
+                // URL du service de consultation des disponibilités
+                SERVICE_WSDL_URL = "http://localhost:8080/reservationhotelservice?wsdl";
+                HotelService proxyy = getProxyHotelservice();
+                System.out.println("la fonction test hehe pour voir la connexion "+proxyy.hehe());
+                break;
+
+            case "3":
+                // URL du service de réservation
+                SERVICE_WSDL_URL = "http://localhost:8080/effectuerReservation?wsdl";
+                ReservationService proxyReservation = getProxyReservation();
+                try {
+                    makeReservation(reader, proxyReservation);  // Lance l'opération de réservation
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                break;
+
+            case QUIT:
+                System.out.println("Au revoir");
+                return;
+
+            default:
+                System.out.println("Choix invalide. Veuillez réessayer.");
+                break;
         }
     }
 
-    private void processUserInput(String userInput) {
-        try {
-            switch (userInput) {
-                case "1":
-                    handleAvailableOffers();
-                    break;
-                case "2":
-                    System.out.println("Connection test result: " + proxy.hehe());
-                    break;
-                default:
-                    System.out.println("Invalid option, please try again.");
-                    break;
-            }
-        } catch (ExceptionClient e) {
-            System.err.println("Service error: " + e.getMessage());
-        } catch (Exception e) {
-            System.err.println("Unexpected error: " + e.getMessage());
-        }
+
+
+
+    private HotelService getProxyHotelservice() throws MalformedURLException {
+        return new HotelServiceImplService(new URL(SERVICE_WSDL_URL)).getHotelServiceImplPort();
     }
 
-    private void handleAvailableOffers() throws ExceptionClient {
+    private ReservationService getProxyReservation() throws MalformedURLException {
+        return new ReservationServiceImplService(new URL(SERVICE_WSDL_URL)).getReservationServiceImplPort();
+    }
+
+
+    private void handleAvailableOffers(HotelService proxy) throws ExceptionClient {
         UserCredentials credentials = getUserCredentials();
         if (credentials == null) return;
 
@@ -372,38 +172,38 @@ public class RHServiceClientCLI extends AbstractMain {
     }
 
 
-//    private List<Chambre> filterChambresByCapacity(List<Chambre> chambres, int numberOfPeople) {
-//        return chambres.stream()
-//                .filter(chambre -> chambre.getNombrelit() >= numberOfPeople) // Change to >= to accommodate multiple options
-//                .collect(Collectors.toList());
-//    }
-private List<Chambre> filterChambresByCapacity(List<Chambre> chambres, int numberOfPeople) {
-    // Stratégie 1 : Trouver des chambres individuelles
-    List<Chambre> individualRooms = chambres.stream()
-            .filter(chambre -> chambre.getNombrelit() >= numberOfPeople)
-            .collect(Collectors.toList());
 
-    if (!individualRooms.isEmpty()) {
-        return individualRooms;
-    }
+    private List<Chambre> filterChambresByCapacity(List<Chambre> chambres, int numberOfPeople) {
+        // Stratégie 1 : Trouver des chambres individuelles
+        List<Chambre> individualRooms = chambres.stream()
+                .filter(chambre -> chambre.getNombrelit() >= numberOfPeople)
+                .collect(Collectors.toList());
 
-    // Stratégie 2 : Combiner des chambres pour atteindre le nombre de personnes
-    List<Chambre> combinedRooms = new ArrayList<>();
-    int totalCapacity = 0;
-
-    for (Chambre chambre : chambres) {
-        combinedRooms.add(chambre);
-        totalCapacity += chambre.getNombrelit();
-
-        if (totalCapacity >= numberOfPeople) {
-            return combinedRooms;
+        if (!individualRooms.isEmpty()) {
+            return individualRooms;
         }
-    }
 
-    return new ArrayList<>(); // Aucune solution trouvée
-}
+        // Stratégie 2 : Combiner des chambres pour atteindre le nombre de personnes
+        List<Chambre> combinedRooms = new ArrayList<>();
+        int totalCapacity = 0;
+
+        for (Chambre chambre : chambres) {
+            combinedRooms.add(chambre);
+            totalCapacity += chambre.getNombrelit();
+
+            if (totalCapacity >= numberOfPeople) {
+                return combinedRooms;
+            }
+        }
+
+        return new ArrayList<>(); // Aucune solution trouvée
+    }
 
     private UserCredentials getUserCredentials() {
+        if (scanner == null) {
+            System.err.println("Scanner is not initialized.");
+            return null;
+        }
         System.out.print("Enter username: ");
         String username = scanner.nextLine().trim();
         System.out.print("Enter password: ");
@@ -519,6 +319,7 @@ private List<Chambre> filterChambresByCapacity(List<Chambre> chambres, int numbe
 
     private void handlePhotoDownload(int offerId, Chambre selectedRoom) throws IOException {
         System.out.print("Would you like to download images of the selected room? (o/n): ");
+        HotelService proxy = getProxyHotelservice();
         String response = scanner.nextLine().trim().toLowerCase();
 
         if ("o".equals(response)) {
@@ -550,38 +351,6 @@ private List<Chambre> filterChambresByCapacity(List<Chambre> chambres, int numbe
 
 
 
-  /*  private void downloadPhotos(Offre offer, int numberOfPeople) {
-        for (Chambre chambre : offer.getChambres()) {
-            if (chambre.getNombrelit() >= numberOfPeople) {
-                String imageUrl = chambre.getImageUrl();
-                if (imageUrl != null && !imageUrl.isEmpty()) {
-                    // Handle relative URLs
-                    if (!imageUrl.startsWith("http://") && !imageUrl.startsWith("https://")) {
-                        imageUrl = BASE_URL + imageUrl; // Define BASE_URL according to your configuration
-                    }
-
-                    // Create directory if it does not exist
-                    try {
-                        Files.createDirectories(Paths.get("images_client"));
-                    } catch (IOException e) {
-                        System.err.println("Error creating directory: " + e.getMessage());
-                    }
-
-                    String fileName = "images_client/chambre_offre_" + offer.getId() + "_chambre_" + chambre.getIdchambre() + ".jpg";
-                    try (InputStream in = new URL(imageUrl).openStream()) {
-                        Files.copy(in, new File(fileName).toPath());
-                        System.out.println("Image downloaded successfully: " + fileName);
-                    } catch (IOException e) {
-                        System.err.println("Error downloading image: " + e.getMessage());
-                    }
-                } else {
-                    System.out.println("No valid image URL for chambre ID: " + chambre.getIdchambre());
-                }
-            }
-        }
-    }
-*/
-
     private static class UserCredentials {
         String username;
         String password;
@@ -603,4 +372,111 @@ private List<Chambre> filterChambresByCapacity(List<Chambre> chambres, int numbe
             this.numberOfPeople = numberOfPeople;
         }
     }
+    private void makeReservation(BufferedReader reader, ReservationService proxyReservation)
+            throws IOException, ExceptionClient, DatatypeConfigurationException {
+        try {
+            // Get user credentials
+            UserCredentials credentials = getUserCredentials();
+            if (credentials == null) {
+                System.err.println("Failed to get valid credentials");
+                return;
+            }
+
+            // Get reservation details
+            ReservationDetails details = getReservationDetails();
+            if (details == null) {
+                System.err.println("Failed to get valid reservation details");
+                return;
+            }
+
+            // Validate dates
+            if (details.startDate.isBefore(LocalDate.now())) {
+                System.err.println("Start date cannot be in the past");
+                return;
+            }
+
+            // Get offer ID with validation
+            System.out.print("Enter offer ID: ");
+            int offerId = readInteger("Offer ID: ");
+            if (offerId <= 0) {
+                System.err.println("Invalid offer ID");
+                return;
+            }
+
+            // Debug logging
+            System.out.println("\nDEBUG - Reservation Details:");
+            System.out.println("Offer ID: " + offerId);
+            System.out.println("Start Date: " + details.startDate);
+            System.out.println("End Date: " + details.endDate);
+            System.out.println("Number of People: " + details.numberOfPeople);
+
+            // Get client information
+            System.out.println("\nClient Information:");
+            System.out.print("Enter client's last name: ");
+            String clientLastName = scanner.nextLine().trim();
+            System.out.print("Enter client's first name: ");
+            String clientFirstName = scanner.nextLine().trim();
+
+            if (clientLastName.isEmpty() || clientFirstName.isEmpty()) {
+                System.err.println("Client name cannot be empty");
+                return;
+            }
+
+            // Create client object
+            Client client = new Client();
+            client.setNom(clientLastName);
+            client.setIdentifiantClient(clientFirstName+clientFirstName+clientLastName);
+            client.setPrenom(clientFirstName);
+
+            // Debug - Print client info
+            System.out.println("\nDEBUG - Client Details:");
+            System.out.println("Last Name: " + client.getNom());
+            System.out.println("First Name: " + client.getPrenom());
+            System.out.println("identifiant Name: " + client.getIdentifiantClient());
+
+            // Attempt reservation
+            System.out.println("\nAttempting to make reservation...");
+            boolean success = proxyReservation.reservationdoneornot(
+                    offerId,
+                    client,
+                    details.numberOfPeople,
+                    details.startDate.toString(),
+                    details.endDate.toString()
+            );
+
+            // Handle reservation result
+            if (success) {
+                System.out.println("\n✅ Reservation successfully completed!");
+                System.out.println("Please keep these details for your records:");
+                System.out.println("Offer ID: " + offerId);
+                System.out.println("Dates: " + details.startDate + " to " + details.endDate);
+                System.out.println("Number of People: " + details.numberOfPeople);
+            } else {
+                System.out.println("\n❌ Reservation failed. Possible reasons:");
+                System.out.println("- No available rooms for the selected dates");
+                System.out.println("- Insufficient capacity for the number of people");
+                System.out.println("- Offer no longer available");
+            }
+
+        } catch (WebServiceException e) {
+            System.err.println("\n🔴 Web Service Error:");
+            System.err.println("Error communicating with the reservation service");
+            System.err.println("Details: " + e.getMessage());
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("\n🔴 Unexpected Error:");
+            System.err.println("An unexpected error occurred during the reservation process");
+            System.err.println("Details: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    // Helper method for date validation
+    private boolean isValidDateRange(LocalDate startDate, LocalDate endDate) {
+        LocalDate now = LocalDate.now();
+        return !startDate.isBefore(now) &&
+                !endDate.isBefore(startDate) &&
+                !startDate.isEqual(endDate);
+    }
+
 }
