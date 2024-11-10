@@ -18,23 +18,9 @@ public class HotelServiceConfig {
     @Bean
     public HotelService hotelService()  {
         return new HotelServiceImpl();
+
     }
 
 
-  /*  @Bean
-    public ObjectMapper objectMapper() {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.registerModule(new JavaTimeModule());
-        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-        return mapper;
-    }
-    @Bean
-    public ServletRegistrationBean jaxWsServlet() {
-        ServletRegistrationBean srb = new ServletRegistrationBean(new WSServlet(), "/*");
-        srb.setLoadOnStartup(1);
-        return srb;
-    }
 
-
-   */
 }

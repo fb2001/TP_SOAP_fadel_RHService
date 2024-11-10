@@ -29,6 +29,17 @@ public class AgenceRepositoryImpl implements AgenceRepository {
     }
 
     @Override
+    public Agence getAgence(String id) {
+        for(Agence a : agences) {
+            if(a.getId().equals(id)) {
+                return a;
+            }
+        }
+        System.err.println("Agence not found");
+        return null;
+    }
+
+    @Override
     public List<Agence> findAll() {
         return new ArrayList<>(agences); // Retourne une copie de la liste
     }

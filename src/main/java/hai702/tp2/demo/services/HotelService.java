@@ -19,7 +19,6 @@ import java.util.Date;
 import java.util.List;
 
 @WebService
-//@XmlSeeAlso({Offre.class, Hotel.class, Chambre.class})
 public interface HotelService {
 
     @WebMethod
@@ -44,10 +43,11 @@ public interface HotelService {
     @WebMethod
     byte[] getChambreImage(int idOffre, int idChambre) ;
 
- /*   @WebMethod
-     ArrayList<Offre> findAvailableOffers(Date dateDebutParsed, Date dateFinParsed, int nombrePersonnes, SimpleDateFormat sdf) throws ParseException ;
+    @WebMethod
+    String getDateExpirationOffreById(int idOffre);
 
-  /* @WebMethod
-    Offre getOffrebyIdf(int id) throws Exception;
-*/
+    @WebMethod
+    double getPrixparoffreetnombrepersonne(int idOffre, String dateDebut, String dateFin, int nbPersonnes) throws Exception ;
+
+
     }

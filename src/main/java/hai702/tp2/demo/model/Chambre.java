@@ -19,13 +19,24 @@ public class Chambre implements Serializable {
     private String description;
     private int nombrelit;
     private String imageUrl;
+    private Boolean disponibilite;
 
-    public Chambre(long idchambre, String description,int nombrelit) {
+    public Chambre(long idchambre, String description,int nombrelit , boolean disponibilite) {
         this.idchambre = idchambre;
         this.description = description;
         this.nombrelit = nombrelit;
+        this.disponibilite = disponibilite;
 
     }
+
+    public Boolean getDisponibilite() {
+        return disponibilite;
+    }
+
+    public void setDisponibilite(Boolean disponibilite) {
+        this.disponibilite = disponibilite;
+    }
+
     public String getImageUrl() {
         return imageUrl;
     }

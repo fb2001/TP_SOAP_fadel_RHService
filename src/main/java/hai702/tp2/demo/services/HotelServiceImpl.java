@@ -321,51 +321,6 @@ public class HotelServiceImpl implements HotelService {
         this.repository = repository;
     }
 
-//    @WebMethod
-//    @Override
-//    public ArrayList<Offre> getOffresDisponible(String identifiantclientStr, String motdepasseclient, String dateDebut, String dateFin, int nombrePersonnes) throws ExceptionClient {
-//        try {
-//            logger.info("Début de getOffresDisponible avec les paramètres suivants:");
-//            logger.info("identifiantclientStr: {}", identifiantclientStr);
-//            logger.info("dateDebut: {}", dateDebut);
-//            logger.info("dateFin: {}", dateFin);
-//            logger.info("nombrePersonnes: {}", nombrePersonnes);
-//
-//            // Validation des entrées
-//            validateInputs(identifiantclientStr, motdepasseclient, dateDebut, dateFin);
-//            logger.info("Validation des inputs réussie");
-//
-//            // Vérification des identifiants
-//            if (!verifierIdentifiantsClient(identifiantclientStr, motdepasseclient)) {
-//                logger.error("Échec de l'authentification pour l'ID: {}", identifiantclientStr);
-//                throw new ExceptionClient("Identifiant ou mot de passe incorrect.");
-//            }
-//            logger.info("Authentification réussie");
-//
-//            // Validation et parsing des dates
-//            SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
-//            sdf.setLenient(false);
-//
-//            Date dateDebutParsed = validateAndParseDate(dateDebut);
-//            Date dateFinParsed = validateAndParseDate(dateFin);
-//            logger.info("Dates parsées avec succès - début: {}, fin: {}", dateDebutParsed, dateFinParsed);
-//
-//            // Recherche des offres disponibles
-//            ArrayList<Offre> offres = findAvailableOffers(dateDebutParsed, dateFinParsed, nombrePersonnes, sdf);
-//            logger.info("Nombre d'offres trouvées: {}", offres.size());
-//
-//            if (offres.isEmpty()) {
-//                throw new ExceptionClient("Pas d'offfre disponible");
-//            }
-//            return offres;
-//        } catch (ParseException e) {
-//            logger.error("Erreur lors du parsing des dates", e);
-//            throw new ExceptionClient("Erreur de format de date. Format attendu : yyyy-MM-dd. Exemple : 2024-10-25");
-//        } catch (Exception e) {
-//            logger.error("Erreur inattendue dans getOffresDisponible", e);
-//            throw new ExceptionClient("Une erreur inattendue s'est produite: " + e.getMessage());
-//        }
-//    }
 
     @Override
     public Offre ajoutOffre(Offre offre) throws ExceptionAlreadyexistoffre {
@@ -387,46 +342,7 @@ public class HotelServiceImpl implements HotelService {
         return repository.hehe();
     }
 
-    //    @WebMethod
-//    @Override
-//    public ArrayList<Offre> findAvailableOffers(Date dateDebutParsed, Date dateFinParsed, int nombrePersonnes, SimpleDateFormat sdf) throws ParseException {
-//        ArrayList<Offre> offresDisponibles = new ArrayList<>();
-//       // logger.info("Recherche d'offres disponibles entre {} et {} pour {} personnes", sdf.format(dateDebutParsed), sdf.format(dateFinParsed), nombrePersonnes);
-//
-//        //logger.info("Nombre total d'offres à vérifier: {}", offresExistantes.size());
-//        offresDisponibles.add(hotel.getOffres().get(0));
-//        offresDisponibles.add(hotel.getOffres().get(1));
-//        offresDisponibles.add(hotel.getOffres().get(2));
-//
-//      /*  for (Offre offre : offresExistantes) {
-//            try {
-//             //   Date offreDateDebut = sdf.parse(offre.getDatedebutoffre());
-//             //   Date offreDateFin = sdf.parse(offre.getDatedefinoffre());
-//                offresDisponibles.add(offre);
-//
-//                logger.debug("Vérification de l'offre {} : {} à {}", offre.getId(), offre.getDatedebutoffre(), offre.getDatedefinoffre());
-//
-//              /*  if (!offreDateDebut.after(dateFinParsed) && !offreDateFin.before(dateDebutParsed)) {
-//                    boolean canAccommodate = offre.getChambres().stream()
-//                            .anyMatch(chambre -> chambre.getNombrelit() >= nombrePersonnes);
-//
-//                    if (canAccommodate) {
-//                        logger.info("Offre {} ajoutée aux résultats", offre.getId());
-//                        offresDisponibles.add(offre);
-//                    }
-//                }*
-//            } catch (Exception e) {
-//                logger.error("Erreur lors du traitement de l'offre {}", offre.getId(), e);
-//                // On continue avec les autres offres même si une échoue
-//            }
-//
-//
-//        }
-//*/
-//       // logger.info("Nombre d'offres disponibles trouvées: {}", offresDisponibles.size());
-//        return offresDisponibles;
-//    }
-//
+
     @Override
     public List<Offre> getOffresDisponible(String identifiantclientStr, String motdepasseclient,
                                            String dateDebut, String dateFin, int nombrePersonnes) throws ExceptionClient {
@@ -434,65 +350,7 @@ public class HotelServiceImpl implements HotelService {
     }
 
 
-    //    public byte[] getChambreImage(int idChambre) {
-//        // Chercher la chambre dans toutes les offres
-//@Override
-//public byte[] getChambreImage(int idoffre, int idchambre) {
-//    // Récupère toutes les offres
-//    List<Offre> offres = repository.getAllOffres();
-//
-//    // Vérifie l'index d'offre pour éviter les erreurs d'index
-//    if (idoffre < 0 || idoffre >= offres.size()) {
-//        throw new IllegalArgumentException("Offre not found with ID: " + idoffre);
-//    }
-//
-//    // Récupère l'offre et la liste des chambres
-//    Offre offre = offres.get(idoffre);
-//    List<Chambre> chambrelistoffre = offre.getChambres();
-//
-//    // Trouve la chambre par ID
-//    Chambre chambre = chambrelistoffre.stream()
-//            .filter(c -> c.getIdchambre() == idchambre)
-//            .findFirst()
-//            .orElseThrow(() -> new IllegalArgumentException("Chambre not found with ID: " + idchambre));
-//
-//    // Récupère le nombre de lits
-//    int nombreLits = chambre.getNombrelit();
-//
-//    // Définit le nom du fichier image en fonction du nombre de lits
-//    String imageFileName;
-//    switch (nombreLits) {
-//        case 1:
-//            imageFileName = "single.jpg";
-//            break;
-//        case 2:
-//            imageFileName = "2lits.jpg";
-//            break;
-//        case 3:
-//            imageFileName = "3lit.jpg";
-//            break;
-//        case 4:
-//            imageFileName = "jacuzi.jpg";
-//            break;
-//        default:
-//            throw new IllegalArgumentException("No image found for " + nombreLits + " beds");
-//    }
-//
-//    // Chemin de base des images
-//    String imagePath = "/Users/fadelbenomar/Desktop/s1-Master/Dell/Master_s1/architectures_distribuées/SOAP/RHSOAPWebService/src/main/java/hai702/tp2/demo/image/";
-//    String fullImagePath = imagePath + imageFileName;
-//
-//    try {
-//        // Lit et retourne les octets de l'image
-//        Path path = Paths.get(fullImagePath);
-//        return Files.readAllBytes(path);
-//    } catch (IOException e) {
-//        System.err.println(Level.SEVERE );
-//        System.err.println("Erreur lors de la lecture de l'image: ");
-//        System.err.println( e.getMessage());
-//        return new byte[0];
-//    }
-//}
+
     @Override
     public byte[] getChambreImage(int idoffre, int idchambre) {
         // Récupère toutes les offres
@@ -533,154 +391,16 @@ public class HotelServiceImpl implements HotelService {
             return new byte[0];
         }
     }
-//    public byte[] getChambreImage(int idoffre, int idchambre) {
-//        // Récupère toutes les offres
-//        List<Offre> offres = repository.getAllOffres();
-//
-//        // Vérifie l'index d'offre pour éviter les erreurs d'index
-//        if (idoffre < 0 || idoffre >= offres.size()) {
-//            throw new IllegalArgumentException("Offre not found with ID: " + idoffre);
-//        }
-//
-//        // Récupère l'offre et la liste des chambres
-//        Offre offre = offres.get(idoffre);
-//        List<Chambre> chambrelistoffre = offre.getChambres();
-//
-//        // Trouve la chambre par ID
-//        Chambre chambre = chambrelistoffre.stream()
-//                .filter(c -> c.getIdchambre() == idchambre)
-//                .findFirst()
-//                .orElseThrow(() -> new IllegalArgumentException("Chambre not found with ID: " + idchambre));
-//
-//        // Récupère le nombre de lits
-//        int nombreLits = chambre.getNombrelit();
-//
-//        // Définit le nom du fichier image en fonction du nombre de lits
-//        String imageFileName;
-//        switch (nombreLits) {
-//            case 1:
-//                imageFileName = "single.jpg";
-//                break;
-//            case 2:
-//                imageFileName = "2lits.jpg";
-//                break;
-//            case 3:
-//                imageFileName = "3lit.jpg";
-//                break;
-//            case 4:
-//                imageFileName = "jacuzi.jpg";
-//                break;
-//            default:
-//                throw new IllegalArgumentException("No image found for " + nombreLits + " beds");
-//        }
-//
-//        // Chemin de base des images
-//        String imagePath = "/Users/fadelbenomar/Desktop/s1-Master/Dell/Master_s1/architectures_distribuées/SOAP/RHSOAPWebService/src/main/java/hai702/tp2/demo/image/";
-//        String fullImagePath = imagePath + imageFileName;
-//
-//        try {
-//            // Lit et retourne les octets de l'image
-//            Path path = Paths.get(fullImagePath);
-//            return Files.readAllBytes(path);
-//        } catch (IOException e) {
-//            System.err.println(Level.SEVERE);
-//            System.err.println("Erreur lors de la lecture de l'image: ");
-//            System.err.println(e.getMessage());
-//            return new byte[0];
-//        }
-//    }
+
+    @Override
+    public String getDateExpirationOffreById(int idOffre) {
+        return repository.getDateExpirationOffreById(idOffre);
+    }
+
+    @Override
+    public double getPrixparoffreetnombrepersonne(int idOffre, String dateDebut, String dateFin, int nbPersonnes) throws Exception {
+        return repository.getPrixparoffreetnombrepersonne(idOffre, dateDebut, dateFin, nbPersonnes);
+    }
+
 }
 
-//        for (Offre offre : repository.getAllOffres()) {
-//            Optional<Chambre> chambreOptional = offre.getChambres().stream()
-//                    .filter(c -> c.getIdchambre() == idChambre)
-//                    .findFirst();
-//
-//            if (chambreOptional.isPresent()) {
-//                Chambre chambre = chambreOptional.get();
-//                String imagePath = chambre.getImageUrl(); // Récupérer l'URL de l'image
-//
-//                try {
-//                    // Construire le chemin complet vers l'image
-//                    String projectPath = new File("").getAbsolutePath();
-//                    Path path = Paths.get(projectPath, imagePath);
-//
-//                    // Vérifier si le fichier existe avant de le lire
-//                    if (Files.exists(path)) {
-//                        return Files.readAllBytes(path); // Lire et retourner les octets de l'image
-//                    } else {
-//                        System.err.println("Fichier image non trouvé: " + path);
-//                        return new byte[0];
-//                    }
-//                } catch (IOException e) {
-//                    System.err.println("Erreur lors de la lecture de l'image: " + e.getMessage());
-//                    return new byte[0];
-//                }
-//            }
-//        }
-//
-//        System.err.println("Aucune chambre trouvée avec l'ID: " + idChambre);
-//        return new byte[0];
-//    }
-
-
-
-
-
-
-
- /*   @Override
-    public ArrayList<Offre> findAvailableOffers(Date dateDebutParsed, Date dateFinParsed,
-                                                int nombrePersonnes, SimpleDateFormat sdf) throws ParseException {
-        return repository.findAvailableOffers(dateDebutParsed, dateFinParsed, nombrePersonnes, sdf);
-    }
-
-*/
-
-
-
-
-
-
-  /*  @Override
-    @WebMethod
-    public  Offre getOffrebyIdf(int id) throws Exception{
-        for(Offre offre : hotel.getOffres()){
-            if(offre.getId() == id){
-                return offre;
-            }
-        }
-        throw new ExceptionClient("Pas d'offres disponible avec cette identifiant "+id);
-    }
-
-   */
-
-//    private void validateInputs(String identifiantclientStr, String motdepasseclient, String dateDebut, String dateFin) throws ExceptionClient {
-//        if (identifiantclientStr == null || identifiantclientStr.isEmpty()) {
-//            throw new ExceptionClient("Identifiant non fourni.");
-//        }
-//        if (motdepasseclient == null || motdepasseclient.isEmpty()) {
-//            throw new ExceptionClient("Mot de passe non fourni.");
-//        }
-//        if (dateDebut == null || dateDebut.isEmpty()) {
-//            throw new ExceptionClient("Date de début non fournie.");
-//        }
-//        if (dateFin == null || dateFin.isEmpty()) {
-//            throw new ExceptionClient("Date de fin non fournie.");
-//        }
-//    }
-//
-//    private Date validateAndParseDate(String date, SimpleDateFormat sdf) throws ParseException {
-//        try {
-//            return sdf.parse(date);
-//        } catch (ParseException e) {
-//            throw new ParseException("Format de date incorrect: " + date + ". Attendu : yyyy-MM-dd", e.getErrorOffset());
-//        }
-//    }
-//
-//
-//    private boolean verifierIdentifiantsClient(String identifiantclient, String motdepasseclient) {
-//        return hotel.getAgences().stream()
-//                .anyMatch(agence -> agence.getId().equals(identifiantclient) &&
-//                        agence.getMotdepasse().equals(motdepasseclient));
-//    }

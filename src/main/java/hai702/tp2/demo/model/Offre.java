@@ -19,6 +19,9 @@ public class Offre implements Serializable {
     private String datedebutoffre;
     private String datedefinoffre;
     private double prixparjour;
+    private String idAgence;
+    private double pourcentageReduction;
+
 
 
 
@@ -37,7 +40,7 @@ public class Offre implements Serializable {
 
     public Offre(int id, String detail, ArrayList<Chambre> chambres,
                  String datedebutoffre, String datedefinoffre,
-                 double prixparjour ) throws ExceptionDateInvalide {
+                 double prixparjour ,String idAgence , double pourcentageReduction) throws ExceptionDateInvalide {
         if (!DateUtils.isValidDateString(datedebutoffre) || !DateUtils.isValidDateString(datedefinoffre)) {
             throw new ExceptionDateInvalide("Les dates fournies ne sont pas valides");
         }
@@ -48,19 +51,30 @@ public class Offre implements Serializable {
         this.datedebutoffre = datedebutoffre;
         this.datedefinoffre = datedefinoffre;
         this.prixparjour = prixparjour;
+        this.idAgence = idAgence;
+        this.pourcentageReduction = pourcentageReduction;
+
       //  this.imageUrl = imageUrl;
     }
 
- /*   public Hotel getHotel() {
-        return hotel;
+
+    public String getIdAgence() {
+        return idAgence;
     }
 
-    public void setHotel(Hotel hotel) {
-        this.hotel = hotel;
+    public void setIdAgence(String idAgence) {
+        this.idAgence = idAgence;
     }
 
-  */
- public void setImageBasedOnCapacity() {
+    public double getPourcentageReduction() {
+        return pourcentageReduction;
+    }
+
+    public void setPourcentageReduction(double pourcentageReduction) {
+        this.pourcentageReduction = pourcentageReduction;
+    }
+
+    public void setImageBasedOnCapacity() {
      if (this.chambres != null && !this.chambres.isEmpty()) {
          for (Chambre chambre : this.chambres) {
              String basePath = "hai702/tp2/demo/image/";

@@ -1,6 +1,7 @@
 package hai702.tp2.demo.repository;
 
 import hai702.tp2.demo.exceptions.ExceptionDateInvalide;
+import hai702.tp2.demo.model.Agence;
 import hai702.tp2.demo.model.Chambre;
 import hai702.tp2.demo.model.Offre;
 import hai702.tp2.demo.utils.DateUtils;
@@ -11,41 +12,18 @@ public class OffreRepositoryImpl implements OffreRepository{
     private  ArrayList<Offre> offres;
    // private  HotelRepository hotel = new HotelRepositoryImpl();
     private ChambreRepository chambres = new ChambreRepositoryImpl();
+    private AgenceRepository agences = new AgenceRepositoryImpl();
+
+
+
    // private AgenceRepository agences = new AgenceRepositoryImpl();
 
     // Constructeur de la classe
     public OffreRepositoryImpl() {
         this.offres = new ArrayList<>(); // Initialisation de la liste d'offres
-        // Récupération de la liste de chambres depuis le repository
-       /* ArrayList<Chambre> listeChambres = chambres.getChambres();
 
-        // Création d'une sous-liste de chambres à partir des indices appropriés
-        List<Chambre> of1;
-        if (listeChambres.size() >= 2) {
-            of1 =  listeChambres.subList(0, 2);
-        } else {
-            // Gestion alternative, par exemple, utiliser toute la liste si elle a moins de deux éléments
-            of1 = new ArrayList<>(listeChambres);
-            System.err.println("Liste de chambres contient moins de 2 éléments, utilisation de toute la liste.");
-        }
-        Offre o1 = new Offre(1, "Chambre simple", (ArrayList<Chambre>) of1, "2024-11-20", "2024-11-26", 50.0);
-        Offre o2 = new Offre(5, "Chambre double",    (ArrayList<Chambre>) of1, "2024-11-20", "2024-11-30", 60.0);
-        Offre o3 = new Offre(6, "Chambre triple",    (ArrayList<Chambre>) of1, "2024-11-26", "2024-11-26", 20.0);
-        Offre o4 = new Offre(7, "Chambre double",    (ArrayList<Chambre>) of1, "2024-11-25", "2024-11-30", 40.0);
-        Offre o5 = new Offre(8, "Chambre simple",    (ArrayList<Chambre>) of1, "2024-11-28", "2024-11-30", 56.0);
-        Offre o6 = new Offre(9, "Chambre double",    (ArrayList<Chambre>) of1, "2024-11-30", "2024-12-20", 150.0);
-        Offre o7 = new Offre(10, "Suite lux",    (ArrayList<Chambre>) of1, "2024-11-20", "2024-11-26", 350.0);
-
-        offres.add(o1);
-        offres.add(o2);
-        offres.add(o3);
-        offres.add(o4);
-        offres.add(o5);
-        offres.add(o6);
-        offres.add(o7);
-
-        */
         ArrayList<Chambre> listeChambres = chambres.getChambres();
+        ArrayList<Agence> listeAgences = agences.getAgences();
         Random random = new Random(); // Instance de Random pour la sélection aléatoire
 
         // Vérifier qu'il y a suffisamment de chambres pour créer 13 offres avec 2 chambres chacune
@@ -56,6 +34,7 @@ public class OffreRepositoryImpl implements OffreRepository{
 
         // Créer un ensemble pour stocker les combinaisons de chambres utilisées
         List<List<Chambre>> combinaisonsUtilisees = new ArrayList<>();
+        double pourcentagereduction = 0.50;
 
         for (int i = 0; i < 13; i++) { // Pour chaque offre
             List<Chambre> selectedChambres = new ArrayList<>();
@@ -72,12 +51,15 @@ public class OffreRepositoryImpl implements OffreRepository{
             }
 
             // Créer l'offre avec les chambres sélectionnées
+            String agenceId = listeAgences.get(random.nextInt(listeAgences.size())).getId();
+            pourcentagereduction += 0.005;
+
             Offre offre = new Offre(i + 1,
                     "Offre " + (i + 1),
                     (ArrayList<Chambre>) selectedChambres,
                     "2024-11-20",
                     "2024-11-26",
-                    50.0 + (i * 10));
+                    50.0 + (i * 10),agenceId ,pourcentagereduction);
 
             // Définir l'image en fonction de la capacité
             offre.setImageBasedOnCapacity();
@@ -99,19 +81,27 @@ public class OffreRepositoryImpl implements OffreRepository{
         }
     }
 
-    // Méthode pour ajouter des offres en fonction de l'hôtel et des chambres
-  /*  @Override
-    public ArrayList<Offre> getOffres(Hotel hotel, List<Chambre> chambres) {
-        // Création des offres avec les chambres fournies
-        offres.add(new Offre(1, "Chambre simple", hotel, chambres.subList(0, 2), "2024-11-20", "2024-11-26", 50.0));
-        offres.add(new Offre(2, "Chambre double", hotel, chambres.subList(0, 2), "2024-11-05", "2024-11-29", 80.0));
-        offres.add(new Offre(3, "Chambre triple", hotel, chambres.subList(2, 3), "2024-11-02", "2024-11-30", 120.0));
-        offres.add(new Offre(4, "Suite luxe", hotel, chambres.subList(3, 4), "2024-11-11", "2024-11-29", 300.0));
-
-        return offres; // Retourne la liste des offres
+    @Override
+    public ArrayList<Offre> getOffresByAgence(String agence) {
+        ArrayList<Offre> offresdelagence = new ArrayList<>();
+        for(Offre offre : offres) {
+            if(offre.getIdAgence().equals(agence)) {
+                offresdelagence.add(offre);
+            }
+        }
+        return offresdelagence;
     }
-    */
 
+    @Override
+    public Offre getoffreByID(int id) {
+        for(Offre offre : offres) {
+            if(offre.getId() == id) {
+                return offre;
+            }
+        }
+        System.out.println("offre avec ID: " + id + " n'existe pas !");
+        return null;
+    }
 
     // Méthode pour obtenir la liste des offres (si nécessaire)
     @Override

@@ -14,4 +14,9 @@ public interface OffreRepository {
   //  ArrayList<Offre> getOffres(Hotel hotel, List<Chambre> chambres);
     ArrayList<Offre> getAllOffres();
     void afficherOffres();
+
+
+
+    ArrayList<Offre> getOffresByAgence(String agence);
+    Offre getoffreByID(int id);
 }

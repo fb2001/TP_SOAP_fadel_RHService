@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
         "hai702.tp2.demo.services",
         "hai702.tp2.demo.config",
         "hai702.tp2.demo.repository",
-        //"hai702.tp2.demo.model",
+        "hai702.tp2.demo.model",
         "hai702.tp2.demo.publisher"
 })
 

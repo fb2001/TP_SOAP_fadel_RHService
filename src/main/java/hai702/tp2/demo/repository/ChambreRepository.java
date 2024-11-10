@@ -15,22 +15,7 @@ public interface ChambreRepository {
     ArrayList<Chambre> getChambres();
     Chambre getChambreByID(long id);
 
+    void modification_disponibilite(long id , boolean nouvelle_modification);
 
-
-    /*
-    Chambre getChambreById(int idChambre);
-
-    Chambre getChambreByType(int typeChambre);
-
-    List<Chambre> getChambresByType(int typeChambre);
-
-    void mettreAJourDisponibilite(int idChambre, boolean disponible);
-
-    ArrayList<Chambre> getAllChambres();
-
-    double getPrixChambre(int idChambre);
-
-    int getNbPersonnes(int idChambre);
-    */
 
 }
